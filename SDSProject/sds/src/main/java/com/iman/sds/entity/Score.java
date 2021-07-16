@@ -26,7 +26,7 @@ public class Score implements Serializable {
 
     private Long factoryId;
 
-    private Long waterId;
+    private Long sensorId;
 
 
 }

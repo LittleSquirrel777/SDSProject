@@ -24,6 +24,8 @@ public class Water implements Serializable {
 
     private Long id;
 
+    private Long sensorId;
+
     private Integer ph;
 
     private Integer chroma;
