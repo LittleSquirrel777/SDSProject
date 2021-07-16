@@ -2,12 +2,13 @@ package com.iman.sds.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author admin
@@ -15,12 +16,10 @@ import java.io.Serializable;
  */
 //每个用户有信息 例如用户本身的名字和地址
 @Data
-  @EqualsAndHashCode(callSuper = false)
-    public class UserInfo implements Serializable {
+@ToString
+public class UserInfo implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-      private Long userId;
+    private Long userId;
 
     private String name;
 

@@ -5,12 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author admin
@@ -18,13 +19,10 @@ import java.io.Serializable;
  */
 //具体的水的数据 包含在链上的hash
 @Data
-  @EqualsAndHashCode(callSuper = false)
-    public class Water implements Serializable {
+@ToString
+public class Water implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-      @TableId(value = "id", type = IdType.AUTO)
-      private Long id;
+    private Long id;
 
     private Integer ph;
 
@@ -46,7 +44,6 @@ import java.io.Serializable;
 
     private Integer toc;
 
-    @TableField("chainHash")
     private String chainHash;
 
 

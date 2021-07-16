@@ -2,7 +2,7 @@ package com.iman.sds.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wuhan.tracedemo.common.exception.BizException;
+import com.iman.sds.common.exception.BizException;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

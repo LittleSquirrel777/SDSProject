@@ -1,8 +1,8 @@
 package com.iman.sds.common.aspect;
 
 
-import com.wuhan.tracedemo.common.ResponseMsg;
-import com.wuhan.tracedemo.common.log.SalixLog;
+import com.iman.sds.common.ResponseMsg;
+import com.iman.sds.common.log.SalixLog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -24,7 +24,7 @@ public class AppLogAspect {
     // 保存日志句柄
     private ThreadLocal<SalixLog> salixLogThreadLocal = new ThreadLocal<>();
 
-    @Pointcut("execution(* com.wuhan.tracedemo.controller.*.*(..))")
+    @Pointcut("execution(* com.iman.sds.controller.*.*(..))")
     public void pointcut() {
     }
 

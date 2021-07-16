@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -18,12 +19,9 @@ import java.io.Serializable;
  */
 //每个工厂的每个水数据对应的积分
 @Data
-@EqualsAndHashCode(callSuper = false)
+@ToString
 public class Score implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private Long factoryId;

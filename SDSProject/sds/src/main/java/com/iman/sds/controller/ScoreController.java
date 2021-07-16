@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2021-07-16
  */
 @Controller
-@RequestMapping("//scoreController")
+@RequestMapping("//score")
 public class ScoreController {
 
 }
