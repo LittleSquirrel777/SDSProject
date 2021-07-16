@@ -19,7 +19,7 @@ import java.io.Serializable;
 //工厂水的数据  每个工厂有多个传感器即有多个数据
 @Data
 @ToString
-public class SensorWater implements Serializable {
+public class FactorySensor implements Serializable {
 
     private Long id;
 

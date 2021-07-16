@@ -20,7 +20,7 @@ import java.io.Serializable;
 //具体的水的数据 包含在链上的hash
 @Data
 @ToString
-public class Water implements Serializable {
+public class SensorData implements Serializable {
 
     private Long id;
 
@@ -48,5 +48,5 @@ public class Water implements Serializable {
 
     private String chainHash;
 
-
+    private int status;
 }
