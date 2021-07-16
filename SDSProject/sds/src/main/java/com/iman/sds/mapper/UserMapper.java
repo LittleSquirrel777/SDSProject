@@ -26,11 +26,13 @@ public interface UserMapper extends BaseMapper<User>{
     void updatePassword(@Param("username") String username, @Param("newPassword") String newPassword,@Param("salt") String salt);
 
     //@Insert("insert into logistic_info(good_id,description,status,`create_time`) values(#{goodId},#{description},#{status},#{createTime})")
-    @Options(useGeneratedKeys = true,keyProperty = "id")
+    //@Insert("insert into user values(#{id},#{name},#{password},#{salt})")
+    //@Options(useGeneratedKeys = true,keyProperty = "id")
     boolean addUser2(User user);
 
     boolean addUserInfo2(UserInfo uerInfo);
 
-    @Options(useGeneratedKeys = true,keyProperty = "id")
+    //@Insert("insert into user_role values(#{id},#{userId},#{roleId})")
+    //@Options(useGeneratedKeys = true,keyProperty = "id")
     boolean addUserRole2(UserRole userRole);
 }

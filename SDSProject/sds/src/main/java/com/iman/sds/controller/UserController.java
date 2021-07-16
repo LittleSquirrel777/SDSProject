@@ -66,23 +66,28 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseMsg login(@RequestBody UserRegisterParam userRegisterParam){
-        if(userRegisterParam.getAccount() == null || userRegisterParam.getPassword() == null){
+        String newUserName = userRegisterParam.getAccount();
+        String newUserPassword = userRegisterParam.getPassword();
+
+        if(newUserName == null || userRegisterParam.getPassword() == null){
             return ResponseMsg.errorResponse(SalixError.MSG_USER_NAME_PASSWORD_NULL);
         }
 
+
         User newUser = new User();
         newUser.setSalt(JwtUtils.generateSalt());
-        String code = userRegisterParam.getAccount().concat(userRegisterParam.getPassword()).concat(newUser.getSalt()) ;
+        String code = newUserName.concat(newUserPassword).concat(newUser.getSalt()) ;
         newUser.setPassword(DigestUtils.md5DigestAsHex(code.getBytes()));
-        newUser.setName(userRegisterParam.getAccount());
+        newUser.setName(newUserName);
         userService.saveUser(newUser);
         UserInfo newUserInfo = new UserInfo();
-        newUserInfo.setUserId(userService.getUserByName(userRegisterParam.getAccount()).getId());
-        newUserInfo.setName(userRegisterParam.getName());
+        Long newUserId = (userService.getUserByName(newUserName)).getId();
+        newUserInfo.setUserId(newUserId);
+        newUserInfo.setName(newUserName);
         newUserInfo.setAddress(userRegisterParam.getAddress());
         userService.saveUserInfo(newUserInfo);
         UserRole newUserRole = new UserRole();
-        newUserRole.setUserId(userService.getUserByName(userRegisterParam.getAccount()).getId());
+        newUserRole.setUserId(newUserId);
         newUserRole.setRoleId(Long.valueOf(3));
         userService.saveRole(newUserRole);
         return ResponseMsg.successResponse("OK");
