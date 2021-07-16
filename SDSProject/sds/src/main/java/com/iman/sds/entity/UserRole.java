@@ -24,7 +24,7 @@ public class UserRole implements Serializable {
 
     private Long userId;
 
-    private Long poleId;
+    private Long roleId;
 
 
 }

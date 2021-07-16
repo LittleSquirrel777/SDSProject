@@ -21,5 +21,17 @@
         WHERE name = #{username}
     </update>
 
+    <insert id="addUser2">
+        insert into user values(#{id},#{name},#{password},#{salt})
+    </insert>
+
+
+    <insert id="addUserInfo2">
+        insert into user_info values(#{id},#{name},#{address})
+    </insert>
+
+    <insert id="addUserRole2">
+        insert into user_role values(#{id},#{userId},#{roleId})
+    </insert>
 
 </mapper>

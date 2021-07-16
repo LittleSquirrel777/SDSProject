@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iman.sds.common.StatusCode;
 import com.iman.sds.common.exception.BizException;
 import com.iman.sds.entity.User;
+import com.iman.sds.entity.UserInfo;
 import com.iman.sds.entity.UserLoginParam;
+import com.iman.sds.entity.UserRole;
 import com.iman.sds.mapper.UserMapper;
 import com.iman.sds.service.UserService;
 import com.iman.sds.utils.JwtUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import java.util.List;
@@ -21,6 +24,9 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+    @Autowired
+    UserMapper userMapper;
+
     @Override
     public List<String> queryAllPerms(Long userId) {
         return baseMapper.queryAllPerms(userId);
@@ -58,5 +64,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         baseMapper.updatePassword(username,md5Password,salt);
     }
 
+    public boolean saveUser(User user) {
+        return userMapper.addUser2(user);
+    }
 
+    public boolean saveUserInfo(UserInfo userInfo) {
+        return userMapper.addUserInfo2(userInfo);
+    }
+
+    public boolean saveRole(UserRole userRole) {
+        return userMapper.addUserRole2(userRole);
+    };
 }
