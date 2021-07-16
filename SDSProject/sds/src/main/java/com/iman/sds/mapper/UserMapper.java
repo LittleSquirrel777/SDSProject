@@ -2,6 +2,10 @@ package com.iman.sds.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.iman.sds.entity.User;
+import com.iman.sds.entity.UserInfo;
+import com.iman.sds.entity.UserRole;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,4 +24,15 @@ public interface UserMapper extends BaseMapper<User>{
      * 修改密码
      */
     void updatePassword(@Param("username") String username, @Param("newPassword") String newPassword,@Param("salt") String salt);
+
+    //@Insert("insert into logistic_info(good_id,description,status,`create_time`) values(#{goodId},#{description},#{status},#{createTime})")
+    //@Insert("insert into user values(#{id},#{name},#{password},#{salt})")
+    //@Options(useGeneratedKeys = true,keyProperty = "id")
+    boolean addUser2(User user);
+
+    boolean addUserInfo2(UserInfo uerInfo);
+
+    //@Insert("insert into user_role values(#{id},#{userId},#{roleId})")
+    //@Options(useGeneratedKeys = true,keyProperty = "id")
+    boolean addUserRole2(UserRole userRole);
 }
