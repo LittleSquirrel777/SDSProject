@@ -36,7 +36,9 @@ import com.iman.sds.entity.SensorData;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.InetSocketAddress;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,11 +55,10 @@ public class JRContractDemo {
     private static byte[] contractUpdateCode = ByteUtils.hexStringToBytes(contractUpdateCodeString); //CreditManager
 
 
-
     /**
      * contract id
      */
-    private static String callContractId = "wuda1626315070871";
+    private static String callContractId = "wuda1626447420742";
 
     private static final String account = "littlesquirrel777";
     private static Identity userIdentity;
@@ -164,7 +165,7 @@ public class JRContractDemo {
         boolean initResult = sdk.init(env);
         if (!initResult) {
             exit("initSdk", "sdk init failed.");
-        }else{
+        } else {
             System.out.println("sdk init success");
         }
     }
@@ -229,7 +230,7 @@ public class JRContractDemo {
     }
 
     //private static void callContractAddSensorCredit(int accountName,Integer amount)
-    private static boolean callContractAddSensorCredit(Integer name,String addr) {
+    private static boolean callContractAddSensorCredit(Integer name, String addr) {
         EVMParameter parameters = new EVMParameter("AddSensor(uint256,string)");
         parameters.addUint(BigInteger.valueOf(name));
         parameters.addString(addr);
@@ -253,7 +254,7 @@ public class JRContractDemo {
         }
 
         if (!callContractResult.isSuccess() || callContractResult.getTransactionReceipt().getResult() != 0) {
-            System.out.println("callContract Error :"  + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
+            System.out.println("callContract Error :" + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
             return false;
         } else {
             byte[] output = callContractResult.getTransactionReceipt().getOutput();
@@ -271,6 +272,7 @@ public class JRContractDemo {
 
     private static boolean callContractDataReceiveCredit(Sensor sensor, SensorData sensorData) {
         EVMParameter parameters = new EVMParameter("DataReceive(uint256,string,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)");
+//        parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addString(sensor.getAddress());
         parameters.addUint(BigInteger.valueOf(sensorData.getPh()));
@@ -303,12 +305,13 @@ public class JRContractDemo {
         }
 
         if (!callContractResult.isSuccess() || callContractResult.getTransactionReceipt().getResult() != 0) {
-            System.out.println("callContract Error :"  + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
+            System.out.println("callContract Error :" + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
             return false;
         } else {
             byte[] output = callContractResult.getTransactionReceipt().getOutput();
             if (output == null) {
                 exit("call callContractDataReceiveCredit function", "output failed");
+//                System.out.println("error1");
                 return false;
             } else {
                 // decode return values
@@ -343,7 +346,7 @@ public class JRContractDemo {
         }
 
         if (!callContractResult.isSuccess() || callContractResult.getTransactionReceipt().getResult() != 0) {
-            System.out.println("callContract Error :"  + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
+            System.out.println("callContract Error :" + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
             return "failed";
         } else {
             byte[] output = callContractResult.getTransactionReceipt().getOutput();
@@ -353,7 +356,7 @@ public class JRContractDemo {
             } else {
                 // decode return values
                 EVMOutput contractReturnValues = new EVMOutput(ByteUtils.toHexString(output));
-                System.out.println( String.format("call callContractDataQueryCredit function,log is %s",contractReturnValues.getString()));
+                System.out.println(String.format("call callContractDataQueryCredit function,log is %s", contractReturnValues.getString()));
                 return contractReturnValues.getString();
             }
         }
@@ -399,7 +402,7 @@ public class JRContractDemo {
         }
 
         if (!callContractResult.isSuccess() || callContractResult.getTransactionReceipt().getResult() != 0) {
-            System.out.println("callContract Error :"  + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
+            System.out.println("callContract Error :" + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
         } else {
             byte[] output = callContractResult.getTransactionReceipt().getOutput();
             if (output == null) {
@@ -446,7 +449,7 @@ public class JRContractDemo {
     }
 
     //订阅合约
-    private static void listenContractTest(){
+    private static void listenContractTest() {
         //event handler
         IEventCallback handler = new IEventCallback() {
             @Override
@@ -469,14 +472,38 @@ public class JRContractDemo {
         initSdk();
 
         //step 3 : deploy a contract using useridentity.
-        deployContract();
-
+//        deployContract();
+        //调用合约的过程
+        //1 添加一个传感器
+//        boolean result = callContractAddSensorCredit(1, "武汉");
+//        System.out.println(result);
+        //2 给传感器添加一个数据
+        /*Sensor sensor = new Sensor();
+        sensor.setId(1L);
+        sensor.setAddress("武汉");
+        SensorData sensorData = new SensorData();
+        sensorData.setId(1L);
+        sensorData.setCreteTime(new Date());
+        sensorData.setPh(1);
+        sensorData.setChroma(1);
+        sensorData.setSs(1);
+        sensorData.setBod5(1);
+        sensorData.setCod(1);
+        sensorData.setAn(1);
+        sensorData.setTn(1);
+        sensorData.setTp(1);
+        sensorData.setVp(1);
+        sensorData.setToc(1);
+        sensorData.setStatus(0);*/
+//        boolean result = callContractDataReceiveCredit(sensor, sensorData);
+//        System.out.println(result);
+        //3 根据sensor查到数据（栈溢出）
+        Sensor sensor = new Sensor();
+        sensor.setId(1L);
+        sensor.setAddress("武汉");
+        String result = callContractDataQueryCredit(sensor);
+        System.out.println(result);
         //step 4 callContract.
-//        String testAccount = "wudaaccount_1626313646568";
-//        callContractIssueCredit(testAccount,800);
-//        callContractQueryCredit(testAccount);
-        //callContractTransferCredit(testAccount,100);
-
         //upgrade contract 调用
         //updateContractDemo();
         //callContractGetParamsTest();
