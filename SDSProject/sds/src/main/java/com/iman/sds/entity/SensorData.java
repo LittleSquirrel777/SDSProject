@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -25,6 +26,8 @@ public class SensorData implements Serializable {
     private Long id;
 
     private Long sensorId;
+
+    private Date creteTime;
 
     private Integer ph;
 
@@ -46,5 +49,6 @@ public class SensorData implements Serializable {
 
     private Integer toc;
 
+    //数据的状态 0：数据正常  1：数据不正常（默认为0）
     private int status;
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2021-07-16
  */
 @Controller
-@RequestMapping("//water")
+@RequestMapping("//sensor")
 
 //智能合约的接口
 
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //private static String callContractDataQueryCredit(Sensor sensor)
 //参数（sensor）    根据传感器的信息，返回传感器对应的所有水数据
 
-public class WaterController {
+public class SensorController {
 
 }
 
