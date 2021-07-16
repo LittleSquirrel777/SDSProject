@@ -18,13 +18,13 @@ import java.io.Serializable;
  */
 @Data
 @ToString
-public class User implements Serializable {
-
+public class User {
     private Long id;
-
-    private String account;
-
+    private String name;
     private String password;
-
     private String salt;
+
+    private boolean isAuthenticated;
+    private int status;
 }
+
