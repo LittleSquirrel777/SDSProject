@@ -11,6 +11,6 @@ import com.iman.sds.entity.SensorData;
  * @author admin
  * @since 2021-07-16
  */
-public interface WaterService extends IService<SensorData> {
+public interface SensorService extends IService<SensorData> {
 
 }
