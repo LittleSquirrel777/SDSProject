@@ -1,19 +1,89 @@
 package com.iman.sds.controller;
 
+import com.iman.sds.common.ResponseMsg;
+import com.iman.sds.common.SalixError;
+import com.iman.sds.common.log.SalixLog;
+import com.iman.sds.entity.User;
+import com.iman.sds.entity.UserLoginParam;
+import com.iman.sds.service.UserService;
+import com.iman.sds.service.impl.CurrentUserService;
+import com.iman.sds.utils.JwtUtils;
+import io.swagger.annotations.Api;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author admin
- * @since 2021-07-16
+ * @author Chris
+ * @date 2021/7/12 21:48
+ * @Email:gem7991@dingtalk.com
  */
-@Controller
-@RequestMapping("//user")
-public class UserController {
+
+@Api(value = "Login", tags = "login 登录验证")
+@CrossOrigin(maxAge = 3600000)
+@RestController
+@RequestMapping("/api/user")
+public class UserController extends BaseController {
+
+    private final Logger logger = LogManager.getLogger(UserController.class);
+
+    @Autowired
+    UserService userService;
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseMsg login(@RequestBody UserLoginParam userLoginParam){
+        SalixLog salixLog = new SalixLog();
+        salixLog.add("account", userLoginParam.getAccount());
+        salixLog.add("password", userLoginParam.getPassword());
+        logger.info(salixLog.toString());
+        if(userLoginParam.getAccount() == null || userLoginParam.getPassword() == null){
+            return ResponseMsg.errorResponse(SalixError.MSG_USER_NAME_PASSWORD_NULL);
+        }
+
+        userService.authentic(userLoginParam);
+        if(!CurrentUserService.getUser().isAuthenticated()) {
+            return ResponseMsg.errorResponse(SalixError.MSG_USER_VERIFY_ERROR);
+        }
+
+        User user = CurrentUserService.getUser();
+        String jwtToken = JwtUtils.sign(user.getName(), JwtUtils.SECRET);
+        Map<String, Object> result = new HashMap<>();
+        result.put("token",jwtToken);
+
+        logger.info(user.getName() +"登录");
+
+        return ResponseMsg.successResponse(result);
+    }
+
+    /*
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseMsg login(@RequestBody UserLoginParam userLoginParam){
+        SalixLog salixLog = new SalixLog();
+        salixLog.add("account", userLoginParam.getAccount());
+        salixLog.add("password", userLoginParam.getPassword());
+        logger.info(salixLog.toString());
+        if(userLoginParam.getAccount() == null || userLoginParam.getPassword() == null){
+            return ResponseMsg.errorResponse(SalixError.MSG_USER_NAME_PASSWORD_NULL);
+        }
+
+        userService.authentic(userLoginParam);
+        if(!CurrentUserService.getUser().isAuthenticated()) {
+            return ResponseMsg.errorResponse(SalixError.MSG_USER_VERIFY_ERROR);
+        }
+
+        User user = CurrentUserService.getUser();
+        String jwtToken = JwtUtils.sign(user.getName(), JwtUtils.SECRET);
+        Map<String, Object> result = new HashMap<>();
+        result.put("token",jwtToken);
+
+        logger.info(user.getName() +"登录");
+
+        return ResponseMsg.successResponse(result);
+    }
+     */
 
 }
