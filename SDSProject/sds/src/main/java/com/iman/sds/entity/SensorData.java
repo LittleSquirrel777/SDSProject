@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @author admin
  * @since 2021-07-16
  */
-//具体的水的数据 包含在链上的hash
+//具体的传感器的数据，每个传感器有多条数据
 @Data
 @ToString
 public class SensorData implements Serializable {
@@ -45,8 +45,6 @@ public class SensorData implements Serializable {
     private Integer vp;
 
     private Integer toc;
-
-    private String chainHash;
 
     private int status;
 }

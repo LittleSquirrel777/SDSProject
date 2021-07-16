@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @author admin
  * @since 2021-07-16
  */
-//每个工厂的每个水数据对应的积分
+//每个工厂的每个传感器对应的积分
 @Data
 @ToString
 public class Score implements Serializable {
@@ -28,5 +28,5 @@ public class Score implements Serializable {
 
     private Long sensorId;
 
-
+    private int num;
 }
