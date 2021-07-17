@@ -27,7 +27,7 @@ import java.util.Map;
  * @author admin
  * @since 2021-07-16
  */
-@Controller
+@RestController
 @RequestMapping("/api/sensor")
 
 //智能合约的接口
@@ -66,6 +66,12 @@ public class SensorController extends BaseController {
     @RequestMapping(value = "/addOne", method = RequestMethod.POST)
     @RequiresPermissions(value = { "sensor:add" })
     public ResponseMsg addSenor(@RequestBody Sensor sensor){
+        sensorService.saveSensor(sensor);
+        return ResponseMsg.successResponse("OK");
+    }
+
+    @RequestMapping(value = "/queryData", method = RequestMethod.GET)
+    public ResponseMsg queryData(@RequestBody Sensor sensor){
         sensorService.saveSensor(sensor);
         return ResponseMsg.successResponse("OK");
     }
