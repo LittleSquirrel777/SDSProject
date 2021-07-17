@@ -1,13 +1,12 @@
-package com.iman.sds.entity;
+package com.iman.sds.po;
 
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
-public class UserRegisterParam {
+public class UserLoginParam {
     private String account;
     private String password;
-    private String name;
-    private String address;
+
 }
