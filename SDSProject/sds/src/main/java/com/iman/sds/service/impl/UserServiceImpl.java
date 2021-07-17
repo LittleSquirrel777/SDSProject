@@ -24,8 +24,6 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-    @Autowired
-    UserMapper userMapper;
 
     @Override
     public List<String> queryAllPerms(Long userId) {
@@ -73,6 +71,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     public boolean saveRole(UserRole userRole) {
-        return userMapper.addUserRole2(userRole);
+        return baseMapper.addUserRole2(userRole);
     };
 }

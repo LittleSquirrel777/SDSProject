@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -28,4 +29,5 @@ public class ScDescription implements Serializable {
 
     private String description;
 
+    private Date createTime;
 }
