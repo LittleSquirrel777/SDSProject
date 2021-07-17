@@ -18,4 +18,6 @@ public class Sensor {
 
     private Long id;
     private String address;
+    private Long factoryId;
+    
 }

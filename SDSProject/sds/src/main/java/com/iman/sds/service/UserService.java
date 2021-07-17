@@ -2,9 +2,9 @@ package com.iman.sds.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iman.sds.entity.User;
-import com.iman.sds.po.UserLoginParam;
 import com.iman.sds.entity.UserInfo;
 import com.iman.sds.entity.UserRole;
+import com.iman.sds.po.UserLoginParam;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ public interface UserService extends IService<User>{
     List<String> queryAllPerms(Long userId);
     void authentic(UserLoginParam userEntity);
     User getUserByName(String userName);
+
     void updatePassword(String username, String newPassword);
     boolean saveUser(User user);
     boolean saveUserInfo(UserInfo userInfo);
