@@ -14,6 +14,7 @@ import com.iman.sds.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +66,7 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseMsg login(@RequestBody UserRegisterParam userRegisterParam){
+    public ResponseMsg register(@RequestBody UserRegisterParam userRegisterParam){
         String newUserName = userRegisterParam.getAccount();
         String newUserPassword = userRegisterParam.getPassword();
 
@@ -93,5 +94,63 @@ public class UserController extends BaseController {
         return ResponseMsg.successResponse("OK");
     }
 
+    @RequestMapping(value = "/factoryRegister", method = RequestMethod.POST)
+    @RequiresPermissions(value = { "fac:add" })
+    public ResponseMsg factoryRegister(@RequestBody UserRegisterParam userRegisterParam){
+        String newUserName = userRegisterParam.getAccount();
+        String newUserPassword = userRegisterParam.getPassword();
 
+        if(newUserName == null || userRegisterParam.getPassword() == null){
+            return ResponseMsg.errorResponse(SalixError.MSG_USER_NAME_PASSWORD_NULL);
+        }
+
+
+        User newUser = new User();
+        newUser.setSalt(JwtUtils.generateSalt());
+        String code = newUserName.concat(newUserPassword).concat(newUser.getSalt()) ;
+        newUser.setPassword(DigestUtils.md5DigestAsHex(code.getBytes()));
+        newUser.setName(newUserName);
+        userService.saveUser(newUser);
+        UserInfo newUserInfo = new UserInfo();
+        Long newUserId = (userService.getUserByName(newUserName)).getId();
+        newUserInfo.setUserId(newUserId);
+        newUserInfo.setName(newUserName);
+        newUserInfo.setAddress(userRegisterParam.getAddress());
+        userService.saveUserInfo(newUserInfo);
+        UserRole newUserRole = new UserRole();
+        newUserRole.setUserId(newUserId);
+        newUserRole.setRoleId(Long.valueOf(2));
+        userService.saveRole(newUserRole);
+        return ResponseMsg.successResponse("OK");
+    }
+
+    @RequestMapping(value = "/governmentRegister", method = RequestMethod.POST)
+    @RequiresPermissions(value = { "gov:add" })
+    public ResponseMsg governmentRegister(@RequestBody UserRegisterParam userRegisterParam){
+        String newUserName = userRegisterParam.getAccount();
+        String newUserPassword = userRegisterParam.getPassword();
+
+        if(newUserName == null || userRegisterParam.getPassword() == null){
+            return ResponseMsg.errorResponse(SalixError.MSG_USER_NAME_PASSWORD_NULL);
+        }
+
+
+        User newUser = new User();
+        newUser.setSalt(JwtUtils.generateSalt());
+        String code = newUserName.concat(newUserPassword).concat(newUser.getSalt()) ;
+        newUser.setPassword(DigestUtils.md5DigestAsHex(code.getBytes()));
+        newUser.setName(newUserName);
+        userService.saveUser(newUser);
+        UserInfo newUserInfo = new UserInfo();
+        Long newUserId = (userService.getUserByName(newUserName)).getId();
+        newUserInfo.setUserId(newUserId);
+        newUserInfo.setName(newUserName);
+        newUserInfo.setAddress(userRegisterParam.getAddress());
+        userService.saveUserInfo(newUserInfo);
+        UserRole newUserRole = new UserRole();
+        newUserRole.setUserId(newUserId);
+        newUserRole.setRoleId(Long.valueOf(1));
+        userService.saveRole(newUserRole);
+        return ResponseMsg.successResponse("OK");
+    }
 }
