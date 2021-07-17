@@ -6,7 +6,10 @@ import com.iman.sds.entity.Score;
 import com.iman.sds.entity.Sensor;
 import com.iman.sds.entity.SensorData;
 import com.iman.sds.po.AddDataParam;
+import com.iman.sds.entity.SensorInfo;
 import org.mapstruct.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -18,6 +21,7 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface SensorMapper extends BaseMapper<SensorData> {
+    List<SensorInfo> getSensorInfoList();
     boolean addSensorData2(AddDataParam addDataParam);
     boolean addScoreData2(Score score);
     boolean addLogData2(ScDescription scDescription);

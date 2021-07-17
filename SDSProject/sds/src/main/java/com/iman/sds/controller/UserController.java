@@ -5,9 +5,10 @@ import com.iman.sds.common.SalixError;
 import com.iman.sds.common.log.SalixLog;
 import com.iman.sds.entity.User;
 import com.iman.sds.entity.UserInfo;
+
+import com.iman.sds.entity.UserRole;
 import com.iman.sds.po.UserLoginParam;
 import com.iman.sds.po.UserRegisterParam;
-import com.iman.sds.entity.UserRole;
 import com.iman.sds.service.UserService;
 import com.iman.sds.service.impl.CurrentUserService;
 import com.iman.sds.utils.JwtUtils;
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,31 +42,31 @@ public class UserController extends BaseController {
     UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseMsg login(@RequestBody UserLoginParam userLoginParam){
+    public ResponseMsg login(@RequestBody UserLoginParam userLoginParam) {
         SalixLog salixLog = new SalixLog();
         salixLog.add("account", userLoginParam.getAccount());
         salixLog.add("password", userLoginParam.getPassword());
         logger.info(salixLog.toString());
-        if(userLoginParam.getAccount() == null || userLoginParam.getPassword() == null){
+        if (userLoginParam.getAccount() == null || userLoginParam.getPassword() == null) {
             return ResponseMsg.errorResponse(SalixError.MSG_USER_NAME_PASSWORD_NULL);
         }
 
         userService.authentic(userLoginParam);
-        if(!CurrentUserService.getUser().isAuthenticated()) {
+        if (!CurrentUserService.getUser().isAuthenticated()) {
             return ResponseMsg.errorResponse(SalixError.MSG_USER_VERIFY_ERROR);
         }
 
         User user = CurrentUserService.getUser();
         String jwtToken = JwtUtils.sign(user.getName(), JwtUtils.SECRET);
         Map<String, Object> result = new HashMap<>();
-        result.put("token",jwtToken);
+        result.put("token", jwtToken);
 
         logger.info(user.getName() +"登录");
 
         return ResponseMsg.successResponse(result);
     }
 
-
+    @Transactional
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseMsg register(@RequestBody UserRegisterParam userRegisterParam){
         String newUserName = userRegisterParam.getAccount();
@@ -73,7 +75,6 @@ public class UserController extends BaseController {
         if(newUserName == null || userRegisterParam.getPassword() == null){
             return ResponseMsg.errorResponse(SalixError.MSG_USER_NAME_PASSWORD_NULL);
         }
-
 
         User newUser = new User();
         newUser.setSalt(JwtUtils.generateSalt());
@@ -152,5 +153,19 @@ public class UserController extends BaseController {
         newUserRole.setRoleId(Long.valueOf(1));
         userService.saveRole(newUserRole);
         return ResponseMsg.successResponse("OK");
+    }
+
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseMsg regis(@RequestBody UserLoginParam userLoginParam){
+        SalixLog salixLog = new SalixLog();
+        salixLog.add("account", userLoginParam.getAccount());
+        salixLog.add("password", userLoginParam.getPassword());
+        logger.info(salixLog.toString());
+        if(userLoginParam.getAccount() == null || userLoginParam.getPassword() == null){
+            return ResponseMsg.errorResponse(SalixError.MSG_USER_NAME_PASSWORD_NULL);
+        }
+        userService.updatePassword(userLoginParam.getAccount(), userLoginParam.getPassword());
+        return ResponseMsg.successResponse();
     }
 }

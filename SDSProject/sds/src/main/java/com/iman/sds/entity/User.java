@@ -18,7 +18,8 @@ import java.io.Serializable;
  */
 @Data
 @ToString
-public class User {
+public class User implements Serializable {
+
     private Long id;
     private String name;
     private String password;
@@ -26,5 +27,7 @@ public class User {
 
     private boolean isAuthenticated;
     private int status;
-}
 
+
+
+}

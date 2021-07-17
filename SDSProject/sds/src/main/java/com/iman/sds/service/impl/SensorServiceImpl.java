@@ -1,11 +1,8 @@
 package com.iman.sds.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.iman.sds.chain.JRContractDemo;
-import com.iman.sds.entity.ScDescription;
-import com.iman.sds.entity.Score;
-import com.iman.sds.entity.Sensor;
 import com.iman.sds.entity.SensorData;
+import com.iman.sds.entity.SensorInfo;
 import com.iman.sds.mapper.SensorMapper;
 import com.iman.sds.mapper.UserMapper;
 import com.iman.sds.po.AddDataParam;
@@ -13,6 +10,8 @@ import com.iman.sds.po.AddLogParam;
 import com.iman.sds.service.SensorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
@@ -116,5 +115,19 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
 
     public boolean saveSensor(Sensor sensor) {
         return sensorMapper.addSensor2(sensor);
+    }
+    @Override
+    public Long getFactoryIdByName(String factoryName) {
+        return null;
+    }
+
+    @Override
+    public List<String> getScoreByFacId(Long factoryId) {
+        return null;
+    }
+
+    @Override
+    public List<SensorInfo> getSensorInfo() {
+        return baseMapper.getSensorInfoList();
     }
 }
