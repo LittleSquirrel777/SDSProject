@@ -1,8 +1,8 @@
 package com.iman.sds.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.iman.sds.entity.SensorData;
-import com.iman.sds.entity.SensorInfo;
+import com.iman.sds.chain.JRContractDemo;
+import com.iman.sds.entity.*;
 import com.iman.sds.mapper.SensorMapper;
 import com.iman.sds.mapper.UserMapper;
 import com.iman.sds.po.AddDataParam;
@@ -33,11 +33,15 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
     UserMapper userMapper;
 
     JRContractDemo jRContractDemo;
+
     @PostConstruct
     public void init(){
         try {
             jRContractDemo = new JRContractDemo();
-            jRContractDemo.initAntSDK();
+            //step 1:init mychain env.
+            jRContractDemo.initMychainEnv();
+            //step 2: init sdk client
+            jRContractDemo.initSdk();
         } catch (Exception e) {
             jRContractDemo = null;
             e.printStackTrace();

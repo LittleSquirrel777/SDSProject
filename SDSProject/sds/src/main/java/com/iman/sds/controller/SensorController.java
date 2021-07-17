@@ -1,6 +1,7 @@
 package com.iman.sds.controller;
 
 import com.iman.sds.entity.Sensor;
+import com.iman.sds.entity.SensorInfo;
 import com.iman.sds.po.AddLogParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,13 +78,13 @@ public class SensorController {
     @RequestMapping(value = "/addOne", method = RequestMethod.POST)
     @RequiresPermissions(value = { "sensor:add" })
     public ResponseMsg addSenor(@RequestBody Sensor sensor){
-        sensorService.saveSensor(sensor);
+
         return ResponseMsg.successResponse("OK");
     }
 
     @RequestMapping(value = "/queryData", method = RequestMethod.GET)
     public ResponseMsg queryData(@RequestBody Sensor sensor){
-        sensorService.saveSensor(sensor);
+
         return ResponseMsg.successResponse("OK");
     }
 }

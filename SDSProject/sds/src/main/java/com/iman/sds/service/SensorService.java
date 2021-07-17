@@ -27,5 +27,5 @@ public interface SensorService extends IService<SensorData> {
     boolean saveLogData(AddLogParam addLogParam);
     boolean saveLogData2Chain(AddLogParam addLogParam);
     boolean saveScoreData(AddLogParam addLogParam);
-    boolean saveSensor(Sensor sensor);
+
 }
