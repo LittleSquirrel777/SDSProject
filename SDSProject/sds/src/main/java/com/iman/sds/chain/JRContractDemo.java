@@ -110,7 +110,7 @@ public class JRContractDemo {
     private static String secretKey = "123456";
 
 
-    private static void initMychainEnv() throws IOException {
+    public static void initMychainEnv() throws IOException {
         // any user key for sign message
         String userPrivateKeyFile = "user.key";
         userIdentity = Utils.getIdentityByName(account);
@@ -131,7 +131,7 @@ public class JRContractDemo {
         env.setLogger(logger);
     }
 
-    private static ClientEnv buildMychainEnv() throws IOException {
+    public static ClientEnv buildMychainEnv() throws IOException {
         InetSocketAddress inetSocketAddress = InetSocketAddress.createUnresolved(host, port);
 //        String keyFilePath = "/certs/client.key";
 //        String certFilePath = "/certs/client.crt";
@@ -160,7 +160,7 @@ public class JRContractDemo {
         return ClientEnv.build(socketAddressArrayList, sslOption, signerOption);
     }
 
-    private static void initSdk() {
+    public static void initSdk() {
         sdk = new MychainClient();
         boolean initResult = sdk.init(env);
         if (!initResult) {
@@ -170,7 +170,7 @@ public class JRContractDemo {
         }
     }
 
-    private static String getErrorMsg(int errorCode) {
+    public static String getErrorMsg(int errorCode) {
         int minMychainSdkErrorCode = ErrorCode.SDK_INTERNAL_ERROR.getErrorCode();
         if (errorCode < minMychainSdkErrorCode) {
             return ErrorCode.valueOf(errorCode).getErrorDesc();
@@ -179,16 +179,16 @@ public class JRContractDemo {
         }
     }
 
-    private static void exit(String tag, String msg) {
+    public static void exit(String tag, String msg) {
         exit(String.format("%s error : %s ", tag, msg));
     }
 
-    private static void exit(String msg) {
+    public static void exit(String msg) {
         System.out.println(msg);
         System.exit(0);
     }
 
-    private static void signRequest(AbstractTransactionRequest request) {
+    public static void signRequest(AbstractTransactionRequest request) {
         // sign request
         long ts = sdk.getNetwork().getSystemTimestamp();
         request.setTxTimeNonce(ts, BaseFixedSizeUnsignedInteger.Fixed64BitUnsignedInteger
@@ -197,7 +197,7 @@ public class JRContractDemo {
         sdk.getConfidentialService().signRequest(env.getSignerOption().getSigners(), request);
     }
 
-    private static void deployContract() {
+    public static void deployContract() {
         EVMParameter contractParameters = new EVMParameter();
         String contractId = "wuda" + System.currentTimeMillis();
 
@@ -230,7 +230,7 @@ public class JRContractDemo {
     }
 
     //private static void callContractAddSensorCredit(int accountName,Integer amount)
-    private static boolean callContractAddSensorCredit(Integer name, String addr) {
+    public static boolean callContractAddSensorCredit(Integer name, String addr) {
         EVMParameter parameters = new EVMParameter("AddSensor(uint256,string)");
         parameters.addUint(BigInteger.valueOf(name));
         parameters.addString(addr);
@@ -270,7 +270,7 @@ public class JRContractDemo {
         }
     }
 
-    private static boolean callContractDataReceiveCredit(Sensor sensor, SensorData sensorData) {
+    public static boolean callContractDataReceiveCredit(Sensor sensor, SensorData sensorData) {
         EVMParameter parameters = new EVMParameter("DataReceive(uint256,string,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)");
 //        parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
@@ -322,7 +322,7 @@ public class JRContractDemo {
         }
     }
 
-    private static String callContractDataQueryCredit(Sensor sensor) {
+    public static String callContractDataQueryCredit(Sensor sensor) {
         EVMParameter parameters = new EVMParameter("DataQuery(uint256,string)");
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addString(sensor.getAddress());
@@ -363,7 +363,7 @@ public class JRContractDemo {
     }
 
     // function AddLogData(uint _number, string _addr, uint _score, string _operator, string _description) returns (bool)
-    private static boolean callContractAddLogDataCredit(Sensor sensor, Score score, String operation, ScDescription scDescription) {
+    public static boolean callContractAddLogDataCredit(Sensor sensor, Score score, String operation, ScDescription scDescription) {
         EVMParameter parameters = new EVMParameter("AddLogData(uint256,string,uint256,string,string)");
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addString((sensor.getAddress()));
@@ -407,7 +407,7 @@ public class JRContractDemo {
     }
 
     // function QueryLogData(uint _number, string _addr) returns (string)
-    private static String callContractQueryLogDataCredit(Sensor sensor) {
+    public static String callContractQueryLogDataCredit(Sensor sensor) {
         EVMParameter parameters = new EVMParameter("QueryLogData(uint256,string)");
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addString(sensor.getAddress());
@@ -448,7 +448,7 @@ public class JRContractDemo {
     }
 
     //升级合约
-    private static void updateContractDemo() {
+    public static void updateContractDemo() {
         EVMParameter contractParameters = new EVMParameter();
         UpdateContractRequest request = new UpdateContractRequest(Utils.getIdentityByName(callContractId), contractUpdateCode, VMTypeEnum.EVM);
         UpdateContractResponse updateContractResponse = sdk.getContractService().updateContract(request);
@@ -464,7 +464,7 @@ public class JRContractDemo {
     }
 
     //调用升级新方法
-    private static void callContractGetParamsTest() {
+    public static void callContractGetParamsTest() {
         EVMParameter parameters = new EVMParameter("GetParamsTest()");
 
         // build CallContractRequest
@@ -507,7 +507,7 @@ public class JRContractDemo {
 
 
     //冻结合约
-    private static void freezeContractTest() {
+    public static void freezeContractTest() {
         FreezeContractRequest request = new FreezeContractRequest(userIdentity, Utils.getIdentityByName(callContractId));
         FreezeContractResponse freezeContractResponse = sdk.getContractService().freezeContract(request);
         if (!freezeContractResponse.isSuccess()
@@ -520,7 +520,7 @@ public class JRContractDemo {
     }
 
     //解冻合约
-    private static void unFreezeContractTest() {
+    public static void unFreezeContractTest() {
         UnFreezeContractRequest request = new UnFreezeContractRequest(userIdentity, Utils.getIdentityByName(callContractId));
         UnFreezeContractResponse unFreezeContractResponse = sdk.getContractService().unFreezeContract(request);
         if (!unFreezeContractResponse.isSuccess()
@@ -533,7 +533,7 @@ public class JRContractDemo {
     }
 
     //订阅合约
-    private static void listenContractTest() {
+    public static void listenContractTest() {
         //event handler
         IEventCallback handler = new IEventCallback() {
             @Override
