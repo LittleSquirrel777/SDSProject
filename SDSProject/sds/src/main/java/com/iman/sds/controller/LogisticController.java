@@ -22,7 +22,7 @@ import java.util.Map;
 public class LogisticController extends BaseController{
 //    @Autowired
 //    LogisticService logisticService;
-
+//
 //    @RequestMapping(value = "/list", method = RequestMethod.GET)
 //    @RequiresPermissions(value = { "logistic:view" })
 //    public ResponseMsg getAllLoginstic(){

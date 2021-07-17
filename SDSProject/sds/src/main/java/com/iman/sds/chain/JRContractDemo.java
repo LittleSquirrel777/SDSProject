@@ -324,7 +324,7 @@ public class JRContractDemo {
         }
     }
 
-    public static String callContractDataQueryCredit(Sensor sensor) {
+    public static String callContractDataQueryCredit1(Sensor sensor) {
         EVMParameter parameters = new EVMParameter("DataQuery(uint256,string)");
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addString(sensor.getAddress());
@@ -364,7 +364,7 @@ public class JRContractDemo {
         }
     }
 
-    public static String callContractDataQueryCredit1(Sensor sensor, Date createTime, Date endTime) {
+    public static String callContractDataQueryCredit2(Sensor sensor, Date createTime, Date endTime) {
         EVMParameter parameters = new EVMParameter("DataQuery(uint256,string,uint256,uint256)");
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addString(sensor.getAddress());
@@ -407,14 +407,16 @@ public class JRContractDemo {
         }
     }
 
-    public static List<SensorData> dataToSensorDataList(Sensor sensor) {
-        String data = callContractDataQueryCredit(sensor);
+    public static List<SensorData> dataToSensorDataList1(Sensor sensor) {
+        String data = callContractDataQueryCredit1(sensor);
         String[] sensorData = data.split("/");
         List<SensorData> sensorList = new ArrayList<SensorData>();
         for (int i = 0; i < sensorData.length; i++) {
             String[] tmp = sensorData[i].split("-");
             for (int j = 0; j < tmp.length; j++) {
                 SensorData sensorData1 = new SensorData();
+                sensorData1.setId(sensor.getId());
+                sensorData1.setCreteTime(new Date(tmp[j]));
                 sensorData1.setPh(Integer.parseInt(tmp[j]));
                 sensorData1.setChroma(Integer.parseInt(tmp[j]));
                 sensorData1.setSs(Integer.parseInt(tmp[j]));
@@ -425,7 +427,33 @@ public class JRContractDemo {
                 sensorData1.setTp(Integer.parseInt(tmp[j]));
                 sensorData1.setVp(Integer.parseInt(tmp[j]));
                 sensorData1.setToc(Integer.parseInt(tmp[j]));
-                sensorData1.setStatus(Integer.parseInt(tmp[j]));
+//                sensorData1.setStatus(Integer.parseInt(tmp[j]));
+                sensorList.add(sensorData1);
+            }
+        }
+        return sensorList;
+    }
+    public static List<SensorData> dataToSensorDataList2(Sensor sensor, Date startTime, Date endTime) {
+        String data = callContractDataQueryCredit2(sensor, startTime, endTime);
+        String[] sensorData = data.split("/");
+        List<SensorData> sensorList = new ArrayList<SensorData>();
+        for (int i = 0; i < sensorData.length; i++) {
+            String[] tmp = sensorData[i].split("-");
+            for (int j = 0; j < tmp.length; j++) {
+                SensorData sensorData1 = new SensorData();
+                sensorData1.setId(sensor.getId());
+                sensorData1.setCreteTime(new Date(tmp[j]));
+                sensorData1.setPh(Integer.parseInt(tmp[j]));
+                sensorData1.setChroma(Integer.parseInt(tmp[j]));
+                sensorData1.setSs(Integer.parseInt(tmp[j]));
+                sensorData1.setBod5(Integer.parseInt(tmp[j]));
+                sensorData1.setCod(Integer.parseInt(tmp[j]));
+                sensorData1.setAn(Integer.parseInt(tmp[j]));
+                sensorData1.setTn(Integer.parseInt(tmp[j]));
+                sensorData1.setTp(Integer.parseInt(tmp[j]));
+                sensorData1.setVp(Integer.parseInt(tmp[j]));
+                sensorData1.setToc(Integer.parseInt(tmp[j]));
+//                sensorData1.setStatus(Integer.parseInt(tmp[j]));
                 sensorList.add(sensorData1);
             }
         }
@@ -636,13 +664,13 @@ public class JRContractDemo {
 
     public static void main(String[] args) throws Exception {
         //step 1:init mychain env.
-        initMychainEnv();
+//        initMychainEnv();
         //step 2: init sdk client
-        initSdk();
+//        initSdk();
 
         //step 3 : deploy a contract using useridentity.
-        deployContract();
-
+//        deployContract();
+//        System.out.println(new Date(new Date().getTime()));
         //调用合约的过程
         //1 添加一个传感器
 //        boolean result = callContractAddSensorCredit(1, "武汉");

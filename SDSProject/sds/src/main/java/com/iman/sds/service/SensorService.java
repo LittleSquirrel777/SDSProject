@@ -1,14 +1,14 @@
 package com.iman.sds.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.iman.sds.entity.Sensor;
-import com.iman.sds.entity.Score;
 import com.iman.sds.entity.SensorData;
 import com.iman.sds.po.AddDataParam;
 import com.iman.sds.po.AddLogParam;
 import com.iman.sds.entity.SensorInfo;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -28,4 +28,5 @@ public interface SensorService extends IService<SensorData> {
     boolean saveLogData2Chain(AddLogParam addLogParam);
     boolean saveScoreData(AddLogParam addLogParam);
 
+    Map<String, List<SensorData>> getSensorDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime);
 }
