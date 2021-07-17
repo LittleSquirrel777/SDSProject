@@ -2,7 +2,7 @@ package com.iman.sds.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iman.sds.entity.User;
-import com.iman.sds.entity.UserLoginParam;
+import com.iman.sds.po.UserLoginParam;
 import com.iman.sds.entity.UserInfo;
 import com.iman.sds.entity.UserRole;
 

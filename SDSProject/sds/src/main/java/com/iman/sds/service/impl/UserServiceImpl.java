@@ -5,7 +5,7 @@ import com.iman.sds.common.StatusCode;
 import com.iman.sds.common.exception.BizException;
 import com.iman.sds.entity.User;
 import com.iman.sds.entity.UserInfo;
-import com.iman.sds.entity.UserLoginParam;
+import com.iman.sds.po.UserLoginParam;
 import com.iman.sds.entity.UserRole;
 import com.iman.sds.mapper.UserMapper;
 import com.iman.sds.service.UserService;
@@ -65,11 +65,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     public boolean saveUser(User user) {
-        return userMapper.addUser2(user);
+        return baseMapper.addUser2(user);
     }
 
     public boolean saveUserInfo(UserInfo userInfo) {
-        return userMapper.addUserInfo2(userInfo);
+        return baseMapper.addUserInfo2(userInfo);
     }
 
     public boolean saveRole(UserRole userRole) {
