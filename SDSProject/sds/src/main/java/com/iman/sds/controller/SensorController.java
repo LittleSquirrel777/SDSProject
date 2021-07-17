@@ -1,9 +1,19 @@
 package com.iman.sds.controller;
 
 
+import com.iman.sds.entity.Sensor;
+import com.iman.sds.service.SensorService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * <p>
  *  前端控制器
@@ -13,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2021-07-16
  */
 @Controller
-@RequestMapping("//sensor")
+@RequestMapping("/api/sensor")
 
 //智能合约的接口
 
@@ -27,7 +37,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //增加一个日志数据  参数（sensor，score，操作符 “+” “-”，scDescription 描述）
 // private static String callContractQueryLogDataCredit(Sensor sensor)
 //调用合约差一条记录 参数（sensor）
-public class SensorController {
+public class SensorController extends BaseController{
+    @Autowired
+    SensorService sensorService;
+    /*
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    @RequiresPermissions(value = {"facwater:view"})
+    private static String callContractDataQueryCredit(Sensor sensor){
+        List<> list = sensorService.list();
+    }
 
+     */
 }
 

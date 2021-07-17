@@ -7,6 +7,7 @@ import com.iman.sds.entity.UserRole;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.mapstruct.Mapper;
 
 import java.util.List;
 
@@ -23,6 +24,13 @@ public interface UserMapper extends BaseMapper<User>{
     /**
      * 修改密码
      */
+    //void updatePassword(@Param("username") String username, @Param("newPassword") String newPassword, @Param("salt") String salt);
+    @Insert("insert into user(`name`,`password`,`salt`) values(#{username},#{md5Password},#{salt})")
+    @Options(useGeneratedKeys = true,keyProperty = "id")
+    void insertData(@Param("username") String username, @Param("md5Password") String newPassword, @Param("salt") String salt);
+
+
+
     void updatePassword(@Param("username") String username, @Param("newPassword") String newPassword,@Param("salt") String salt);
 
     //@Insert("insert into logistic_info(good_id,description,status,`create_time`) values(#{goodId},#{description},#{status},#{createTime})")
@@ -35,4 +43,5 @@ public interface UserMapper extends BaseMapper<User>{
     //@Insert("insert into user_role values(#{id},#{userId},#{roleId})")
     //@Options(useGeneratedKeys = true,keyProperty = "id")
     boolean addUserRole2(UserRole userRole);
+
 }
