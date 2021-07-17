@@ -43,7 +43,7 @@ import java.util.Map;
 //上传传感器的一个日志数据  参数（sensor，score，操作符 “+” “-”，scDescription 描述）
 //public static List<Map<String, String>> logDataToMap(Sensor sensor)
 //给一个sensor 返回这个传感器的日志数据（"sensorId": "", "address": "", "description": ""）
-public class SensorController {
+public class SensorController extends BaseController {
     @Autowired
     SensorService sensorService;
     /*
@@ -87,5 +87,13 @@ public class SensorController {
 
         return ResponseMsg.successResponse("OK");
     }
+
+    @RequestMapping(value = "/queryLog", method = RequestMethod.GET)
+    public ResponseMsg queryLog(@RequestBody Sensor sensor){
+
+        return ResponseMsg.successResponse("OK");
+    }
+
+
 }
 

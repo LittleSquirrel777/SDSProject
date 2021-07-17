@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.List;
 
 public interface ScoreMapper extends BaseMapper<Score> {
