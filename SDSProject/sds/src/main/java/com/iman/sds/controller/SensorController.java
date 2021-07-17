@@ -26,7 +26,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 前端控制器
+ *  前端控制器
  * </p>
  *
  * @author admin
@@ -50,13 +50,12 @@ import java.util.Map;
 public class SensorController {
     @Autowired
     SensorService sensorService;
-
     /*
     获取全部传感器
     * */
     @RequestMapping(value = "/listSensor", method = RequestMethod.GET)
-    @RequiresPermissions(value = {"sensor:view"})
-    public ResponseMsg getAllSensorData() {
+    @RequiresPermissions(value = { "sensor:view" })
+    public ResponseMsg getAllSensorData(){
         List<SensorInfo> list = sensorService.getSensorInfo();
         Map result = new HashMap();
         result.put("sensors", list);
@@ -64,7 +63,7 @@ public class SensorController {
     }
 
     @RequestMapping(value = "/addData", method = RequestMethod.POST)
-    @RequiresPermissions(value = {"sensordata:add"})
+    @RequiresPermissions(value = { "sensordata:add" })
     public ResponseMsg addData(@RequestBody AddDataParam addDataParam) {
         sensorService.saveSensorData2Chain(addDataParam);
         sensorService.saveSensorData(addDataParam);
@@ -72,8 +71,8 @@ public class SensorController {
     }
 
     @RequestMapping(value = "/addLog", method = RequestMethod.POST)
-    @RequiresPermissions(value = {"logdata:write"})
-    public ResponseMsg addLog(@RequestBody AddLogParam addLogParam) {
+    @RequiresPermissions(value = { "logdata:write" })
+    public ResponseMsg addLog(@RequestBody AddLogParam addLogParam){
         sensorService.saveScoreData(addLogParam);
         sensorService.saveLogData2Chain(addLogParam);
         sensorService.saveLogData(addLogParam);
@@ -81,13 +80,12 @@ public class SensorController {
     }
 
     @RequestMapping(value = "/addOne", method = RequestMethod.POST)
-    @RequiresPermissions(value = {"sensor:add"})
-    public ResponseMsg addSenor(@RequestBody Sensor sensor) {
+    @RequiresPermissions(value = { "sensor:add" })
+    public ResponseMsg addSenor(@RequestBody Sensor sensor){
 
         return ResponseMsg.successResponse("OK");
     }
 
-    //选择条件：按工厂	按地址	按时间	根据选择条件前端返回参数	后端返回（工厂名字，传感器编号，水的数据（包括时间））
     @RequestMapping(value = "/queryData", method = RequestMethod.GET)
     public ResponseMsg queryData(@RequestBody QueryDataParam queryDataParam) {
         String factoryName = queryDataParam.getFactoryName();
@@ -98,5 +96,10 @@ public class SensorController {
         return ResponseMsg.successResponse(sensorData);
     }
 
+    @RequestMapping(value = "/queryLog", method = RequestMethod.GET)
+    public ResponseMsg queryLog(@RequestBody Sensor sensor){
+
+        return ResponseMsg.successResponse("OK");
+    }
 }
 

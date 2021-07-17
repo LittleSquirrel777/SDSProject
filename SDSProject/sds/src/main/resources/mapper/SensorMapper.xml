@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iman.sds.mapper.SensorMapper">
+<<<<<<< HEAD
     <insert id="addSensorData2">
         insert into sensor_data(`sensor_id`,`create_time`,`ph`,`chroma`,`ss`,`bod5`,`cod`,`an`,`tn`,`tp`,`vp`,`toc`) values(#{sensorId},#{createTime},#{ph},#{chroma},#{ss},#{bod5},#{cod},#{an},#{tn},#{tp},#{vp},#{toc})
     </insert>
@@ -20,6 +21,7 @@
     <select id="getScoreById2" resultType="com.iman.sds.entity.Score">
         select * from score where `factory_id` = #{factoryId} and `sensor_id` = #{sensorId}
     </select>
+
     <resultMap id="BaseResultMap" type="com.iman.sds.entity.SensorInfo">
         <id column="sensor_id" jdbcType="INTEGER" property="id" />
         <result column="sensor_address" jdbcType="VARCHAR" property="sensorAddress" />
@@ -47,5 +49,6 @@
     <select id="getFacNameBySensorId">
         select user_info.name from sensor join user_info where user_info.user_id = sensor.factory_id where sensor.id = #{sensorId};
     </select>
+
 
 </mapper>
