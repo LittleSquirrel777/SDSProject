@@ -84,7 +84,7 @@ public class UserController extends BaseController {
         UserInfo newUserInfo = new UserInfo();
         Long newUserId = (userService.getUserByName(newUserName)).getId();
         newUserInfo.setUserId(newUserId);
-        newUserInfo.setName(newUserName);
+        newUserInfo.setName(userRegisterParam.getName());
         newUserInfo.setAddress(userRegisterParam.getAddress());
         userService.saveUserInfo(newUserInfo);
         UserRole newUserRole = new UserRole();
@@ -114,7 +114,7 @@ public class UserController extends BaseController {
         UserInfo newUserInfo = new UserInfo();
         Long newUserId = (userService.getUserByName(newUserName)).getId();
         newUserInfo.setUserId(newUserId);
-        newUserInfo.setName(newUserName);
+        newUserInfo.setName(userRegisterParam.getName());
         newUserInfo.setAddress(userRegisterParam.getAddress());
         userService.saveUserInfo(newUserInfo);
         UserRole newUserRole = new UserRole();
@@ -144,7 +144,7 @@ public class UserController extends BaseController {
         UserInfo newUserInfo = new UserInfo();
         Long newUserId = (userService.getUserByName(newUserName)).getId();
         newUserInfo.setUserId(newUserId);
-        newUserInfo.setName(newUserName);
+        newUserInfo.setName(userRegisterParam.getName());
         newUserInfo.setAddress(userRegisterParam.getAddress());
         userService.saveUserInfo(newUserInfo);
         UserRole newUserRole = new UserRole();

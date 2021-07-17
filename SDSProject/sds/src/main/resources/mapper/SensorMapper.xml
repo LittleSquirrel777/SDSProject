@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iman.sds.mapper.SensorMapper">
+    <insert id="addSensorData2">
+        insert into sensor_data(`sensor_id`,`create_time`,`ph`,`chroma`,`ss`,`bod5`,`cod`,`an`,`tn`,`tp`,`vp`,`toc`) values(#{sensorId},#{createTime},#{ph},#{chroma},#{ss},#{bod5},#{cod},#{an},#{tn},#{tp},#{vp},#{toc})
+    </insert>
+
+    <update id="addScoreData2">
+        update score set `number`= `number` + #{num}
+    </update>
+
+    <insert id="addLogData2">
+        insert into sc_description(`score_id`,`description`,`create_time`) values(#{scoreId},#{description},#{createTime})
+    </insert>
+
+    <select id="getSensorById2" resultType="com.iman.sds.entity.Sensor">
+        select * from sensor where `id` = #{id}
+    </select>
+
+    <select id="getScoreById2" resultType="com.iman.sds.entity.Score">
+        select * from score where `factory_id` = #{factoryId} and `sensor_id` = #{sensorId}
+    </select>
+
+
+</mapper>

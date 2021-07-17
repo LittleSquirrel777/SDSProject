@@ -549,59 +549,14 @@ public class JRContractDemo {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    public void initAntSDK() throws Exception{
         //step 1:init mychain env.
         initMychainEnv();
         //step 2: init sdk client
         initSdk();
+    }
 
-        //step 3 : deploy a contract using useridentity.
-//        deployContract();
-        //调用合约的过程
-        //1 添加一个传感器
-//        boolean result = callContractAddSensorCredit(1, "武汉");
-//        System.out.println(result);
-        //2 给传感器添加一个数据
-        /*Sensor sensor = new Sensor();
-        sensor.setId(1L);
-        sensor.setAddress("武汉");
-        SensorData sensorData = new SensorData();
-        sensorData.setId(1L);
-        sensorData.setCreteTime(new Date());
-        sensorData.setPh(1);
-        sensorData.setChroma(1);
-        sensorData.setSs(1);
-        sensorData.setBod5(1);
-        sensorData.setCod(1);
-        sensorData.setAn(1);
-        sensorData.setTn(1);
-        sensorData.setTp(1);
-        sensorData.setVp(1);
-        sensorData.setToc(1);
-        sensorData.setStatus(0);*/
-//        boolean result = callContractDataReceiveCredit(sensor, sensorData);
-//        System.out.println(result);
-        //3 根据sensor查到数据（栈溢出）
-        Sensor sensor = new Sensor();
-        sensor.setId(1L);
-        sensor.setAddress("武汉");
-        String result = callContractDataQueryCredit(sensor);
-        System.out.println(result);
-        //step 4 callContract.
-        //upgrade contract 调用
-        //updateContractDemo();
-        //callContractGetParamsTest();
-
-
-        //freezeContract调用
-        //freezeContractTest();
-        //callContractQueryCredit(account);
-
-        //unFreeze调用
-        //unFreezeContractTest();
-
-//        System.in.read();
-        //step 5 : sdk shut down
-//        sdk.shutDown();
+    public void shutDown(){
+        sdk.shutDown();
     }
 }
