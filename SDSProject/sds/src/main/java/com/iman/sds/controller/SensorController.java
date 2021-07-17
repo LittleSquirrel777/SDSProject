@@ -1,15 +1,12 @@
 package com.iman.sds.controller;
 
 
-import com.iman.sds.entity.Sensor;
+import com.iman.sds.common.ResponseMsg;
+import com.iman.sds.entity.SensorInfo;
 import com.iman.sds.service.SensorService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +19,8 @@ import java.util.Map;
  * @author admin
  * @since 2021-07-16
  */
-@Controller
+
+@RestController
 @RequestMapping("/api/sensor")
 
 //智能合约的接口
@@ -41,13 +39,17 @@ import java.util.Map;
 public class SensorController extends BaseController{
     @Autowired
     SensorService sensorService;
-    /*
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
-    @RequiresPermissions(value = {"facwater:view"})
-    private static String callContractDataQueryCredit(Sensor sensor){
-        List<> list = sensorService.list();
-    }
 
-     */
+    /*
+    获取全部传感器
+    * */
+    @RequestMapping(value = "/listSensor", method = RequestMethod.GET)
+    @RequiresPermissions(value = { "sensor:view" })
+    public ResponseMsg getAllSensorData(){
+        List<SensorInfo> list = sensorService.getSensorInfo();
+        Map result = new HashMap();
+        result.put("sensors", list);
+        return ResponseMsg.successResponse(result);
+    }
 }
 

@@ -2,7 +2,10 @@ package com.iman.sds.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.iman.sds.entity.SensorData;
+import com.iman.sds.entity.SensorInfo;
 import org.mapstruct.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +17,5 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface SensorMapper extends BaseMapper<SensorData> {
-
+    List<SensorInfo> getSensorInfoList();
 }
