@@ -1,4 +1,4 @@
-package com.iman.sds;
+package com.iman.sds.chain;
 
 import com.alipay.mychain.sdk.api.MychainClient;
 import com.alipay.mychain.sdk.api.callback.IEventCallback;
@@ -30,15 +30,15 @@ import com.alipay.mychain.sdk.utils.IOUtil;
 import com.alipay.mychain.sdk.utils.RandomUtil;
 import com.alipay.mychain.sdk.vm.EVMOutput;
 import com.alipay.mychain.sdk.vm.EVMParameter;
+import com.iman.sds.entity.ScDescription;
+import com.iman.sds.entity.Score;
 import com.iman.sds.entity.Sensor;
 import com.iman.sds.entity.SensorData;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.InetSocketAddress;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -362,6 +362,90 @@ public class JRContractDemo {
         }
     }
 
+    // function AddLogData(uint _number, string _addr, uint _score, string _operator, string _description) returns (bool)
+    private static boolean callContractAddLogDataCredit(Sensor sensor, Score score, String operation, ScDescription scDescription) {
+        EVMParameter parameters = new EVMParameter("AddLogData(uint256,string,uint256,string,string)");
+        parameters.addUint(BigInteger.valueOf(sensor.getId()));
+        parameters.addString((sensor.getAddress()));
+        parameters.addUint(BigInteger.valueOf(score.getNum()));
+        parameters.addString(operation);
+        parameters.addString(scDescription.getDescription());
+
+        // build CallContractRequest
+        CallContractRequest request = new CallContractRequest(userIdentity,
+                Utils.getIdentityByName(callContractId), parameters, BigInteger.ZERO, VMTypeEnum.EVM);
+
+        TransactionReceiptResponse callContractResult;
+        if (isTeeChain) {
+            signRequest(request);
+            // generate transaction key
+            byte[] transactionKey = ConfidentialUtil.keyGenerate(secretKey,
+                    request.getTransaction().getHash().getValue());
+
+            ConfidentialRequest confidentialRequest = new ConfidentialRequest(request, publicKeys, transactionKey);
+
+            callContractResult = sdk.getConfidentialService().confidentialRequest(confidentialRequest);
+        } else {
+            callContractResult = sdk.getContractService().callContract(request);
+        }
+
+        if (!callContractResult.isSuccess() || callContractResult.getTransactionReceipt().getResult() != 0) {
+            System.out.println("callContract Error :" + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
+            return false;
+        } else {
+            byte[] output = callContractResult.getTransactionReceipt().getOutput();
+            if (output == null) {
+                exit("call AddLogData function", "output failed");
+                return false;
+            } else {
+                // decode return values
+                EVMOutput contractReturnValues = new EVMOutput(ByteUtils.toHexString(output));
+                System.out.println(String.format("call callContractAddLogDataCredit function, response value: ", contractReturnValues.getBoolean()));
+                return true;
+            }
+        }
+    }
+
+    // function QueryLogData(uint _number, string _addr) returns (string)
+    private static String callContractQueryLogDataCredit(Sensor sensor) {
+        EVMParameter parameters = new EVMParameter("QueryLogData(uint256,string)");
+        parameters.addUint(BigInteger.valueOf(sensor.getId()));
+        parameters.addString(sensor.getAddress());
+
+        // build CallContractRequest
+        CallContractRequest request = new CallContractRequest(userIdentity,
+                Utils.getIdentityByName(callContractId), parameters, BigInteger.ZERO, VMTypeEnum.EVM);
+
+        TransactionReceiptResponse callContractResult;
+        if (isTeeChain) {
+            signRequest(request);
+            // generate transaction key
+            byte[] transactionKey = ConfidentialUtil.keyGenerate(secretKey,
+                    request.getTransaction().getHash().getValue());
+
+            ConfidentialRequest confidentialRequest = new ConfidentialRequest(request, publicKeys, transactionKey);
+
+            callContractResult = sdk.getConfidentialService().confidentialRequest(confidentialRequest);
+        } else {
+            callContractResult = sdk.getContractService().callContract(request);
+        }
+
+        if (!callContractResult.isSuccess() || callContractResult.getTransactionReceipt().getResult() != 0) {
+            System.out.println("callContract Error :" + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
+            return "failed1";
+        } else {
+            byte[] output = callContractResult.getTransactionReceipt().getOutput();
+            if (output == null) {
+                exit("call QueryLogData function", "output failed");
+                return "failed2";
+            } else {
+                // decode return values
+                EVMOutput contractReturnValues = new EVMOutput(ByteUtils.toHexString(output));
+                System.out.println(String.format("call callContractQueryLogDataCredit function,result is %s", contractReturnValues.getString()));
+                return contractReturnValues.getString();
+            }
+        }
+    }
 
     //升级合约
     private static void updateContractDemo() {
