@@ -126,13 +126,13 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         List<Sensor> result1 = null;
         List<Sensor> result2 = null;
         List<Sensor> result = null;
-        if (factoryName != null) {
+        if (factoryName.length() != 0) {
             //根据工厂名字获得工厂id
             Long factoryId = this.baseMapper.getFacIdByFacName(factoryName);
             //根据工厂id获得对应的sensorId
             result1 = this.baseMapper.getSensorIdByFacId(factoryId);
         }
-        if (address != null) {
+        if (address.length() != 0) {
             result2 = this.baseMapper.getSensorIdBySenAddress(address);
         }
 
@@ -158,13 +158,13 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         if (startTime != null && endTime != null) {
             for (int i = 0; i < result.size(); i++) {
                 List<SensorData> sensorData = JRContractDemo.dataToSensorDataList2(result.get(i), startTime, endTime);
-                String factoryName1 = this.baseMapper.getFacNameBySensorId(sensorData.get(i).getId());
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(result.get(i).getId());
                 map.put(factoryName1 + "_" + result.get(i).getId(), sensorData);
             }
         } else {
             for (int i = 0; i < result.size(); i++) {
                 List<SensorData> sensorData = JRContractDemo.dataToSensorDataList1(result.get(i));
-                String factoryName1 = this.baseMapper.getFacNameBySensorId(sensorData.get(i).getId());
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(result.get(i).getId());
                 map.put(factoryName1 + "_" + result.get(i).getId(), sensorData);
             }
         }
@@ -233,14 +233,14 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         if (startTime != null && endTime != null) {
             for (int i = 0; i < result.size(); i++) {
                 List<LogDataParam> logData = JRContractDemo.logDataToMap2(result.get(i), startTime, endTime);
-                String factoryName1 = this.baseMapper.getFacNameBySensorId(logData.get(i).getSensorId());
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(result.get(i).getId());
 //                return logData;
                 map.put(factoryName1 + "_" + result.get(i).getId(), logData);
             }
         } else {
             for (int i = 0; i < result.size(); i++) {
                 List<LogDataParam> logData = JRContractDemo.logDataToMap1(result.get(i));
-                String factoryName1 = this.baseMapper.getFacNameBySensorId(logData.get(i).getSensorId());
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(result.get(i).getId());
                 map.put(factoryName1 + "_" + result.get(i).getId(), logData);
             }
         }
