@@ -64,19 +64,24 @@ public class SensorController {
     @RequestMapping(value = "/addData", method = RequestMethod.POST)
     @RequiresPermissions(value = { "sensordata:add" })
     public ResponseMsg addData(@RequestBody AddDataParam addDataParam) {
-        sensorService.saveSensorData2Chain(addDataParam);
+        String hashCode = sensorService.saveSensorData2Chain(addDataParam);
         sensorService.saveSensorData(addDataParam);
-        return ResponseMsg.successResponse("OK");
+        System.out.println(hashCode);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("hashCode", hashCode);
+        return ResponseMsg.successResponse(map);
     }
 
-    @RequestMapping(value = "/addLog", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addLog", method = RequestMethod.POST)
     @RequiresPermissions(value = { "logdata:write" })
     @Transactional(rollbackFor = Exception.class)
     public ResponseMsg addLog(@RequestBody AddLogParam addLogParam){
         sensorService.saveScoreData(addLogParam);
-        sensorService.saveLogData2Chain(addLogParam);
+        String hashCode = sensorService.saveLogData2Chain(addLogParam);
         sensorService.saveLogData(addLogParam);
-        return ResponseMsg.successResponse("OK");
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("hashCode", hashCode);
+        return ResponseMsg.successResponse(map);
     }
 
     /*@RequestMapping(value = "/addOne", method = RequestMethod.POST)

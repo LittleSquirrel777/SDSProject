@@ -274,7 +274,7 @@ public class JRContractDemo {
         }
     }
 
-    public static boolean callContractDataReceiveCredit(Sensor sensor, SensorData sensorData) {
+    public static String callContractDataReceiveCredit(Sensor sensor, SensorData sensorData) {
         EVMParameter parameters = new EVMParameter("DataReceive(uint256,string,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)");
 //        parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
@@ -310,18 +310,20 @@ public class JRContractDemo {
 
         if (!callContractResult.isSuccess() || callContractResult.getTransactionReceipt().getResult() != 0) {
             System.out.println("callContract Error :" + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
-            return false;
+            return "false";
         } else {
             byte[] output = callContractResult.getTransactionReceipt().getOutput();
             if (output == null) {
                 exit("call callContractDataReceiveCredit function", "output failed");
 //                System.out.println("error1");
-                return false;
+//                return false;
+                return "false";
             } else {
                 // decode return values
                 EVMOutput contractReturnValues = new EVMOutput(ByteUtils.toHexString(output));
                 System.out.println("call callContractDataReceiveCredit success, response value: " + contractReturnValues.getBoolean());
-                return true;
+//                return true;
+                return callContractResult.getTxHash().toString();
             }
         }
     }
@@ -469,7 +471,7 @@ public class JRContractDemo {
     }
 
     // function AddLogData(uint _number, string _addr, uint _score, string _operator, string _description) returns (bool)
-    public static boolean callContractAddLogDataCredit(Sensor sensor, Score score, String operation, ScDescription scDescription) {
+    public static String callContractAddLogDataCredit(Sensor sensor, Score score, String operation, ScDescription scDescription) {
         EVMParameter parameters = new EVMParameter("AddLogData(uint256,string,uint256,string,string)");
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
         parameters.addString((sensor.getAddress()));
@@ -497,17 +499,17 @@ public class JRContractDemo {
 
         if (!callContractResult.isSuccess() || callContractResult.getTransactionReceipt().getResult() != 0) {
             System.out.println("callContract Error :" + getErrorMsg((int) callContractResult.getTransactionReceipt().getResult()));
-            return false;
+            return "false";
         } else {
             byte[] output = callContractResult.getTransactionReceipt().getOutput();
             if (output == null) {
                 exit("call AddLogData function", "output failed");
-                return false;
+                return "false";
             } else {
                 // decode return values
                 EVMOutput contractReturnValues = new EVMOutput(ByteUtils.toHexString(output));
                 System.out.println(String.format("call callContractAddLogDataCredit function, response value: ", contractReturnValues.getBoolean()));
-                return true;
+                return callContractResult.getTxHash().toString();
             }
         }
     }
