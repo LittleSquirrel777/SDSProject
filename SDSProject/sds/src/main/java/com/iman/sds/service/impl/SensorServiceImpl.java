@@ -84,12 +84,13 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         score.setId(sensorMapper.getScoreById2(userMapper.getUserInfoByName2(addLogParam.getFactoryName()).getUserId(),addLogParam.getSensorId()).getId());
         score.setSensorId(addLogParam.getSensorId());
         score.setFactoryId(userMapper.getUserInfoByName2(addLogParam.getFactoryName()).getUserId());
-        score.setNum(addLogParam.getNum());
         String operation;
         if(addLogParam.getNum() < 0) {
             operation = "-";
+            score.setNum(-(addLogParam.getNum()));
         } else {
             operation = "+";
+            score.setNum(addLogParam.getNum());
         }
         ScDescription scDescription = new ScDescription();
         scDescription.setDescription(addLogParam.getDescription());
@@ -189,12 +190,60 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
     }
 
     public List<ScDescription> listLog(String factoryName) {
-        Long factoryId = userMapper.getUserByName(factoryName).getId(); //根据工厂名得到工厂id
-        List<Long> scoreIds = sensorMapper.getScoreIdsByFactoryId2(factoryId); //根据工厂id得到积分记录id
-        List<ScDescription> scDescriptions = new ArrayList<>();
-        for (int i = 0; i < scoreIds.size(); i ++) {
-            scDescriptions.add(sensorMapper.getScDescriptionById2(scoreIds.get(i)));
+        Long factoryId = userMapper.getUserInfoByName2(factoryName).getUserId(); //根据工厂名得到工厂id
+        Long scoreId = sensorMapper.getScoreIdByFactoryId2(factoryId); //根据工厂id得到积分记录id
+        return  sensorMapper.getScDescriptionsById2(scoreId);
+    }
+
+    @Override
+    public Map<String, List<ScDescription>> getLogDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime) {
+        List<Sensor> result1 = null;
+        List<Sensor> result2 = null;
+        List<Sensor> result = null;
+        if (factoryName != null) {
+            //根据工厂名字获得工厂id
+            Long factoryId = this.baseMapper.getFacIdByFacName(factoryName);
+            //根据工厂id获得对应的sensorId
+            result1 = this.baseMapper.getSensorIdByFacId(factoryId);
         }
-        return scDescriptions;
-    };
+        if (address != null) {
+            result2 = this.baseMapper.getSensorIdBySenAddress(address);
+        }
+
+        if (result1 != null && result2 != null) {
+//            Set<Sensor> set = new HashSet<Sensor>();
+//            for (int i = 0; i < result1.size(); i++) {
+//                set.add(result1.get(i));
+//            }
+//            for (int i = 0; i < result2.size(); i++) {
+//                set.add(result2.get(i));
+//            }
+            result1.retainAll(result2);
+            result = result1;
+        } else if (result1 != null) {
+            result = result1;
+        } else if (result2 != null) {
+            result = result2;
+        }
+        if (result == null) {
+            result = this.baseMapper.getAllSensor();
+        }
+        Map<String, List<ScDescription>> map = new HashMap<String, List<ScDescription>>();
+        if (startTime != null && endTime != null) {
+            for (int i = 0; i < result.size(); i++) {
+                //List<ScDescription> logData = JRContractDemo.dataToSensorDataList2(result.get(i), startTime, endTime);
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(logData.get(i).getId());
+                map.put(factoryName1, logData);
+            }
+        } else {
+            for (int i = 0; i < result.size(); i++) {
+                List<SensorData> sensorData = JRContractDemo.dataToSensorDataList1(result.get(i));
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(sensorData.get(i).getId());
+                //map.put(factoryName1, sensorData);
+            }
+        }
+        return map;
+//        return this.baseMapper.selectSensorIdByFacNameAndAddress(factoryName, address);
+    }
+
 }

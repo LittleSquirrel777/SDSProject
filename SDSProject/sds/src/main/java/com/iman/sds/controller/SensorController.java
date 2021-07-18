@@ -6,6 +6,7 @@ import com.iman.sds.entity.SensorData;
 import com.iman.sds.entity.SensorInfo;
 import com.iman.sds.po.AddLogParam;
 import com.iman.sds.po.QueryDataParam;
+import com.iman.sds.po.QueryLogParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,11 +101,14 @@ public class SensorController {
     }
 
     @RequestMapping(value = "/queryLog", method = RequestMethod.GET)
-    public ResponseMsg queryLog(@RequestBody String factoryName){
-        List<ScDescription> list = sensorService.listLog(factoryName);
-        Map result = new HashMap();
-        result.put("logs", list);
-        return ResponseMsg.successResponse(result);
+    public ResponseMsg queryLog(@RequestBody QueryLogParam queryLogParam){
+        String factoryName = queryLogParam.getFactoryName();
+        String address = queryLogParam.getAddress();
+        Date startTime = queryLogParam.getStartTime();
+        Date endTime = queryLogParam.getEndTime();
+        Map<String, List<ScDescription>> scDescriptions = sensorService.getLogDataByFacNameAndAddress(factoryName, address, startTime, endTime);
+
+        return ResponseMsg.successResponse(scDescriptions);
     }
 }
 
