@@ -132,14 +132,15 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         }
 
         if (result1 != null && result2 != null) {
-            Set<Sensor> set = new HashSet<Sensor>();
-            for (int i = 0; i < result1.size(); i++) {
-                set.add(result1.get(i));
-            }
-            for (int i = 0; i < result2.size(); i++) {
-                set.add(result2.get(i));
-            }
-            result = new ArrayList<Sensor>(set);
+//            Set<Sensor> set = new HashSet<Sensor>();
+//            for (int i = 0; i < result1.size(); i++) {
+//                set.add(result1.get(i));
+//            }
+//            for (int i = 0; i < result2.size(); i++) {
+//                set.add(result2.get(i));
+//            }
+            result1.retainAll(result2);
+            result = result1;
         } else if (result1 != null) {
             result = result1;
         } else if (result2 != null) {

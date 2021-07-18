@@ -60,7 +60,7 @@ public class JRContractDemo {
     /**
      * contract id
      */
-    private static String callContractId = "wuda1626520447702";
+    private static String callContractId = "wuda1626570965913";
 
     private static final String account = "littlesquirrel777";
     private static Identity userIdentity;
@@ -663,12 +663,12 @@ public class JRContractDemo {
 
     public static void main(String[] args) throws Exception {
         //step 1:init mychain env.
-//        initMychainEnv();
+        initMychainEnv();
         //step 2: init sdk client
-//        initSdk();
+        initSdk();
 
         //step 3 : deploy a contract using useridentity.
-//        deployContract();
+        deployContract();
 //        System.out.println(new Date(new Date().getTime()));
         //调用合约的过程
         //1 添加一个传感器
