@@ -65,7 +65,7 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         sensorData.setTp(addDataParam.getTp());
         sensorData.setToc(addDataParam.getToc());
         sensorData.setVp(addDataParam.getVp());
-        sensorData.setCreteTime(addDataParam.getCreateTime());
+        sensorData.setCreateTime(addDataParam.getCreateTime());
         if(jRContractDemo != null){
             return jRContractDemo.callContractDataReceiveCredit(sensorMapper.getSensorById2(addDataParam.getSensorId()), sensorData);
         } else {

@@ -425,7 +425,7 @@ public class JRContractDemo {
             sensorData1.setId(sensor.getId());
             Long tmp1 = Long.parseLong(tmp[0]);
             Date date = new Date(tmp1);
-            sensorData1.setCreteTime(date);
+            sensorData1.setCreateTime(date);
             sensorData1.setPh(Integer.parseInt(tmp[1]));
             sensorData1.setChroma(Integer.parseInt(tmp[2]));
             sensorData1.setSs(Integer.parseInt(tmp[3]));
@@ -453,7 +453,7 @@ public class JRContractDemo {
             sensorData1.setId(sensor.getId());
             Long tmp1 = Long.parseLong(tmp[0]);
             Date date = new Date(tmp1);
-            sensorData1.setCreteTime(date);
+            sensorData1.setCreateTime(date);
             sensorData1.setPh(Integer.parseInt(tmp[1]));
             sensorData1.setChroma(Integer.parseInt(tmp[2]));
             sensorData1.setSs(Integer.parseInt(tmp[3]));
