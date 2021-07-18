@@ -28,8 +28,8 @@ public interface SensorService extends IService<SensorData> {
     boolean saveLogData2Chain(AddLogParam addLogParam);
     boolean saveScoreData(AddLogParam addLogParam);
     List<ScDescription> listLog(String factoryName);
-    List<ScDescription> listLogFromChain(String factoryName);
+    //List<ScDescription> listLogFromChain(String factoryName);
 
     Map<String, List<SensorData>> getSensorDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime);
-    Map<String, List<ScDescription>> getLogDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime);
+    //Map<String, List<ScDescription>> getLogDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime);
 }

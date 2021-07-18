@@ -100,6 +100,7 @@ public class SensorController {
         return ResponseMsg.successResponse(sensorData);
     }
 
+    /*
     @RequestMapping(value = "/queryLog", method = RequestMethod.GET)
     public ResponseMsg queryLog(@RequestBody QueryLogParam queryLogParam){
         String factoryName = queryLogParam.getFactoryName();
@@ -110,5 +111,6 @@ public class SensorController {
 
         return ResponseMsg.successResponse(scDescriptions);
     }
+     */
 }
 

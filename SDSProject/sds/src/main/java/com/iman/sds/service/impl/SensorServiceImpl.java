@@ -195,6 +195,7 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         return  sensorMapper.getScDescriptionsById2(scoreId);
     }
 
+    /*
     @Override
     public Map<String, List<ScDescription>> getLogDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime) {
         List<Sensor> result1 = null;
@@ -245,5 +246,5 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         return map;
 //        return this.baseMapper.selectSensorIdByFacNameAndAddress(factoryName, address);
     }
-
+     */
 }
