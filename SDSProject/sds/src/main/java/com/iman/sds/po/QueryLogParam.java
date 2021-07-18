@@ -10,6 +10,6 @@ import java.util.Date;
 public class QueryLogParam {
     private String factoryName;
     private String address;
-    private Date startTime;
-    private Date endTime;
+    private String startTime;
+    private String endTime;
 }

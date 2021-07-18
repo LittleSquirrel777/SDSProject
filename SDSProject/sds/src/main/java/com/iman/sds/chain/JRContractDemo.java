@@ -62,7 +62,7 @@ public class JRContractDemo {
     /**
      * contract id
      */
-    private static String callContractId = "watermonitoring";
+    private static String callContractId = "WaterMonitoring";
 
     private static final String account = "littlesquirrel777";
     private static Identity userIdentity;
@@ -329,7 +329,9 @@ public class JRContractDemo {
     public static String callContractDataQueryCredit1(Sensor sensor) {
         EVMParameter parameters = new EVMParameter("DataQuery(uint256,string)");
         parameters.addUint(BigInteger.valueOf(sensor.getId()));
+//        parameters.addUint(BigInteger.valueOf(6));
         parameters.addString(sensor.getAddress());
+//        parameters.addString("污水口4");
 
         // build CallContractRequest
         CallContractRequest request = new CallContractRequest(userIdentity,
@@ -404,8 +406,9 @@ public class JRContractDemo {
             } else {
                 // decode return values
                 EVMOutput contractReturnValues = new EVMOutput(ByteUtils.toHexString(output));
-                System.out.println(String.format("call callContractDataQueryCredit function,log is %s", contractReturnValues.getString()));
-                return contractReturnValues.getString();
+                String result = contractReturnValues.getString();
+                System.out.println(String.format("call callContractDataQueryCredit function,log is %s", result));
+                return result;
             }
         }
     }
@@ -544,8 +547,9 @@ public class JRContractDemo {
             } else {
                 // decode return values
                 EVMOutput contractReturnValues = new EVMOutput(ByteUtils.toHexString(output));
-                System.out.println(String.format("call callContractQueryLogDataCredit function,result is %s", contractReturnValues.getString()));
-                return contractReturnValues.getString();
+                String result = contractReturnValues.getString();
+                System.out.println(String.format("call callContractQueryLogDataCredit function,result is %s", result));
+                return result;
             }
         }
     }
@@ -586,8 +590,9 @@ public class JRContractDemo {
             } else {
                 // decode return values
                 EVMOutput contractReturnValues = new EVMOutput(ByteUtils.toHexString(output));
-                System.out.println(String.format("call callContractQueryLogDataCredit function,result is %s", contractReturnValues.getString()));
-                return contractReturnValues.getString();
+                String result = contractReturnValues.getString();
+                System.out.println(String.format("call callContractQueryLogDataCredit function,result is %s", result));
+                return result;
             }
         }
     }
