@@ -84,7 +84,7 @@ public class SensorController {
         return ResponseMsg.successResponse("OK");
     }
 
-    @RequestMapping(value = "/queryData", method = RequestMethod.GET)
+    @RequestMapping(value = "/queryData", method = RequestMethod.POST)
     public ResponseMsg queryData(@RequestBody QueryDataParam queryDataParam) {
         String factoryName = queryDataParam.getFactoryName();
         String address = queryDataParam.getAddress();
@@ -106,7 +106,7 @@ public class SensorController {
     }
 
 
-    @RequestMapping(value = "/queryLog", method = RequestMethod.GET)
+    @RequestMapping(value = "/queryLog", method = RequestMethod.POST)
     public ResponseMsg queryLog(@RequestBody QueryLogParam queryLogParam){
         String factoryName = queryLogParam.getFactoryName();
         String address = queryLogParam.getAddress();
