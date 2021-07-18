@@ -60,7 +60,7 @@ public class UserController extends BaseController {
         String jwtToken = JwtUtils.sign(user.getName(), JwtUtils.SECRET);
         Map<String, Object> result = new HashMap<>();
         result.put("token", jwtToken);
-
+        result.put("account",user.getName());
         logger.info(user.getName() +"登录");
 
         return ResponseMsg.successResponse(result);
