@@ -51,7 +51,7 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         }
     }
 
-    public boolean saveSensorData2Chain(AddDataParam addDataParam) {
+    public String saveSensorData2Chain(AddDataParam addDataParam) {
         addDataParam.setCreateTime(new Date());
         SensorData sensorData = new SensorData();
         sensorData.setSensorId(addDataParam.getSensorId());
@@ -69,7 +69,7 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         if(jRContractDemo != null){
             return jRContractDemo.callContractDataReceiveCredit(sensorMapper.getSensorById2(addDataParam.getSensorId()), sensorData);
         } else {
-            return false ;
+            return "false" ;
         }
     }
 
@@ -79,7 +79,7 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         return sensorMapper.addSensorData2(addDataParam);
     }
 
-    public boolean saveLogData2Chain(AddLogParam addLogParam) {
+    public String saveLogData2Chain(AddLogParam addLogParam) {
         addLogParam.setCreateTime(new Date());
         Score score = new Score();
         score.setId(sensorMapper.getScoreById2(userMapper.getUserInfoByName2(addLogParam.getFactoryName()).getUserId(),addLogParam.getSensorId()).getId());
@@ -100,7 +100,7 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         if(jRContractDemo != null){
             return jRContractDemo.callContractAddLogDataCredit(sensorMapper.getSensorById2(addLogParam.getSensorId()),score,operation,scDescription) ;
         } else {
-            return false ;
+            return "false" ;
         }
     }
 
@@ -201,13 +201,13 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         List<Sensor> result1 = null;
         List<Sensor> result2 = null;
         List<Sensor> result = null;
-        if (factoryName != null) {
+        if (factoryName.length() != 0) {
             //根据工厂名字获得工厂id
             Long factoryId = this.baseMapper.getFacIdByFacName(factoryName);
             //根据工厂id获得对应的sensorId
             result1 = this.baseMapper.getSensorIdByFacId(factoryId);
         }
-        if (address != null) {
+        if (address.length() != 0) {
             result2 = this.baseMapper.getSensorIdBySenAddress(address);
         }
 

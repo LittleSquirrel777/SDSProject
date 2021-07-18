@@ -24,9 +24,9 @@ public interface SensorService extends IService<SensorData> {
     List<String> getScoreByFacId(Long factoryId);
     List<SensorInfo> getSensorInfo();
     boolean saveSensorData(AddDataParam addDataParam);
-    boolean saveSensorData2Chain(AddDataParam addDataParam);
+    String saveSensorData2Chain(AddDataParam addDataParam);
     boolean saveLogData(AddLogParam addLogParam);
-    boolean saveLogData2Chain(AddLogParam addLogParam);
+    String saveLogData2Chain(AddLogParam addLogParam);
     boolean saveScoreData(AddLogParam addLogParam);
     List<ScDescription> listLog(String factoryName);
     //List<ScDescription> listLogFromChain(String factoryName);

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iman.sds.mapper.SensorMapper">
     <insert id="addSensorData2">
-        insert into sensor_data(`sensor_id`,`create_time`,`ph`,`chroma`,`ss`,`bod5`,`cod`,`an`,`tn`,`tp`,`vp`,`toc`) values(#{sensorId},#{createTime},#{ph},#{chroma},#{ss},#{bod5},#{cod},#{an},#{tn},#{tp},#{vp},#{toc})
+        insert into sensor_data(`sensor_id`,`createTime`,`ph`,`chroma`,`ss`,`bod5`,`cod`,`an`,`tn`,`tp`,`vp`,`toc`) values(#{sensorId},#{createTime},#{ph},#{chroma},#{ss},#{bod5},#{cod},#{an},#{tn},#{tp},#{vp},#{toc})
     </insert>
 
     <update id="addScoreData2">
