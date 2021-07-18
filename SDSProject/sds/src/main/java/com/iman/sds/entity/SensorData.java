@@ -27,7 +27,7 @@ public class SensorData implements Serializable {
 
     private Long sensorId;
 
-    private Date creteTime;
+    private Date createTime;
 
     private Integer ph;
 
