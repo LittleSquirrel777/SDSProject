@@ -98,8 +98,14 @@ public class SensorController {
         String startTime1 = queryDataParam.getStartTime();
         String endTime1 = queryDataParam.getEndTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        Date startTime = sdf.parse(startTime1);
-        Date endTime = sdf.parse(endTime1);
+        Date startTime = null;
+        if (startTime1.length() != 0 && startTime1 != null) {
+            startTime = sdf.parse(startTime1);
+        }
+        Date endTime = null;
+        if (endTime1.length() != 0 && endTime1 != null) {
+            endTime = sdf.parse(endTime1);
+        }
 
 //        Map hashmap = new HashMap<>();
 //        hashmap.put("factoryName", factoryName);
@@ -124,8 +130,14 @@ public class SensorController {
         String startTime1 = queryLogParam.getStartTime();
         String endTime1 = queryLogParam.getEndTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        Date startTime = sdf.parse(startTime1);
-        Date endTime = sdf.parse(endTime1);
+        Date startTime = null;
+        if (startTime1.length() != 0 && startTime1 != null) {
+            startTime = sdf.parse(startTime1);
+        }
+        Date endTime = null;
+        if (endTime1.length() != 0 && endTime1 != null) {
+            endTime = sdf.parse(endTime1);
+        }
         List list = new ArrayList<LogDataReturn>();
         Map<String, List<LogDataParam>> result = sensorService.getLogDataByFacNameAndAddress(factoryName, address, startTime, endTime);
 
