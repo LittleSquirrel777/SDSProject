@@ -232,8 +232,10 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         Map<String, List<ScDescription>> map = new HashMap<String, List<ScDescription>>();
         if (startTime != null && endTime != null) {
             for (int i = 0; i < result.size(); i++) {
-                //List<ScDescription> logData = JRContractDemo.dataToSensorDataList2(result.get(i), startTime, endTime);
+                List<Map<String, String>> logData = JRContractDemo.logDataToMap2(result.get(i), startTime, endTime);
                 String factoryName1 = this.baseMapper.getFacNameBySensorId(logData.get(i).getId());
+                ScDescription scDescription = new ScDescription();
+                scDescription.setId();
                 map.put(factoryName1, logData);
             }
         } else {
@@ -246,5 +248,6 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         return map;
 //        return this.baseMapper.selectSensorIdByFacNameAndAddress(factoryName, address);
     }
-     */
+    */
+
 }

@@ -109,6 +109,7 @@ public class SensorController {
         return ResponseMsg.successResponse(list);
     }
 
+
     /*
     @RequestMapping(value = "/queryLog", method = RequestMethod.GET)
     public ResponseMsg queryLog(@RequestBody QueryLogParam queryLogParam){
@@ -121,5 +122,6 @@ public class SensorController {
         return ResponseMsg.successResponse(scDescriptions);
     }
      */
+
 }
 
