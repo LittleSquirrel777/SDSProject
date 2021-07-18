@@ -59,15 +59,15 @@ public class SensorController {
         return ResponseMsg.successResponse(result);
     }
 
-    @RequestMapping(value = "/addData", method = RequestMethod.POST)
+   /* @RequestMapping(value = "/addData", method = RequestMethod.POST)
     @RequiresPermissions(value = { "sensordata:add" })
     public ResponseMsg addData(@RequestBody AddDataParam addDataParam) {
         sensorService.saveSensorData2Chain(addDataParam);
         sensorService.saveSensorData(addDataParam);
         return ResponseMsg.successResponse("OK");
-    }
+    }*/
 
-    @RequestMapping(value = "/addLog", method = RequestMethod.POST)
+    @RequestMapping(value = "/addLog", method = RequestMethod.PUT)
     @RequiresPermissions(value = { "logdata:write" })
     @Transactional(rollbackFor = Exception.class)
     public ResponseMsg addLog(@RequestBody AddLogParam addLogParam){
@@ -77,12 +77,12 @@ public class SensorController {
         return ResponseMsg.successResponse("OK");
     }
 
-    @RequestMapping(value = "/addOne", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/addOne", method = RequestMethod.POST)
     @RequiresPermissions(value = { "sensor:add" })
     public ResponseMsg addSenor(@RequestBody Sensor sensor){
 
         return ResponseMsg.successResponse("OK");
-    }
+    }*/
 
     @RequestMapping(value = "/queryData", method = RequestMethod.POST)
     public ResponseMsg queryData(@RequestBody QueryDataParam queryDataParam) {
