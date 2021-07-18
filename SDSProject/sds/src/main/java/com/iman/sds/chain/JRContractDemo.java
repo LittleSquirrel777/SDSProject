@@ -606,20 +606,20 @@ public class JRContractDemo {
     }
 
     //callContractQueryLogDataCredit2
-    public static List<Map<String, String>> logDataToMap2(Sensor sensor, Date startTime, Date endTime) {
+    public static List<LogDataParam> logDataToMap2(Sensor sensor, Date startTime, Date endTime) {
         String logData = callContractQueryLogDataCredit2(sensor, startTime, endTime);
         String[] logDataArray = logData.split("/");
+        List<LogDataParam> list = new ArrayList<LogDataParam>();
         for (int i = 0; i < logDataArray.length; i++) {
-            Map<String, String> map = new HashMap<String, String>();
+            LogDataParam logDataParam = new LogDataParam();
             String[] tmp = logDataArray[i].split("-");
-            map.put("sensorId", tmp[0]);
-            map.put("address", tmp[1]);
-            map.put("description", tmp[4] + " " + tmp[3] + tmp[2]);
-            map.put("createTime", tmp[5]);
-//            mapList.add(map);
+            logDataParam.setSensorId(sensor.getId());
+            logDataParam.setAddress(tmp[1]);
+            logDataParam.setDescription(tmp[4] + " " + tmp[3] + tmp[2]);
+            logDataParam.setCreateTime(new Date(Integer.parseInt(tmp[5])));
+            list.add(logDataParam);
         }
-//        return mapList;
-        return null;
+        return list;
     }
 
     //升级合约
