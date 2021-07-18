@@ -62,7 +62,7 @@ public class JRContractDemo {
     /**
      * contract id
      */
-    private static String callContractId = "WaterMonitoring";
+    private static String callContractId = "Water Monitoring";
 
     private static final String account = "littlesquirrel777";
     private static Identity userIdentity;
