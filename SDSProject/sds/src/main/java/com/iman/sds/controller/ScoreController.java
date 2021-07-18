@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/Score")
+@RequestMapping("/api/score")
 public class ScoreController extends BaseController{
 
     @Autowired
@@ -20,18 +20,26 @@ public class ScoreController extends BaseController{
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @RequiresPermissions(value = { "AllScore:view" })
-    public ResponseMsg getAllScore(){
-        List<Score> list = scoreService.list();
-        Map result = new HashMap();
-        result.put("Score", list);
-        return ResponseMsg.successResponse(result);
+    public ResponseMsg getAllScore(@RequestParam String factoryName){
+        if (factoryName == null) {
+            List<Score> list = scoreService.list();
+            Map result = new HashMap();
+            result.put("scoreList", list);
+            return ResponseMsg.successResponse(result);
+        } else {
+            Long factoryId = scoreService.getFactoryIdByName(factoryName);
+            List<Score> list = scoreService.getScoreByFacId(factoryId);
+            Map result = new HashMap();
+            result.put("scoreList", list);
+            return ResponseMsg.successResponse(result);
+        }
     }
 
 
 
     @RequestMapping(value = "/listfactory", method = RequestMethod.GET)
     @RequiresPermissions(value = { "score:view" })
-    public ResponseMsg getScoreDataByFacId(@RequestParam String factoryName){
+    public ResponseMsg getScoreDataByFacName(@RequestParam String factoryName){
 
         Long factoryId = scoreService.getFactoryIdByName(factoryName);
 
