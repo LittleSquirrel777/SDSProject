@@ -1,9 +1,11 @@
 package com.iman.sds.controller;
 
+import com.iman.sds.entity.ScDescription;
 import com.iman.sds.entity.Sensor;
 import com.iman.sds.entity.SensorInfo;
 import com.iman.sds.po.AddLogParam;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.iman.sds.common.ResponseMsg;
 import com.iman.sds.po.AddDataParam;
@@ -68,6 +70,7 @@ public class SensorController extends BaseController {
 
     @RequestMapping(value = "/addLog", method = RequestMethod.POST)
     @RequiresPermissions(value = { "logdata:write" })
+    @Transactional(rollbackFor = Exception.class)
     public ResponseMsg addLog(@RequestBody AddLogParam addLogParam){
         sensorService.saveScoreData(addLogParam);
         sensorService.saveLogData2Chain(addLogParam);
@@ -89,9 +92,11 @@ public class SensorController extends BaseController {
     }
 
     @RequestMapping(value = "/queryLog", method = RequestMethod.GET)
-    public ResponseMsg queryLog(@RequestBody Sensor sensor){
-
-        return ResponseMsg.successResponse("OK");
+    public ResponseMsg queryLog(@RequestBody String factoryName){
+        List<ScDescription> list = sensorService.listLog(factoryName);
+        Map result = new HashMap();
+        result.put("logs", list);
+        return ResponseMsg.successResponse(result);
     }
 
 

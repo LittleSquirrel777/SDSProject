@@ -34,5 +34,13 @@
         LEFT JOIN user_info AS u ON s.factory_id = u.user_id
     </select>
 
+    <select id="getScoreIdsByFactoryId2" resultType="Long">
+        select id from score where `factory_id` = #{factoryId}
+    </select>
+
+    <select id="getScDescriptionById2" resultType="com.iman.sds.SdsApplication">
+        select * from sc_description where id = #{scoreId}
+    </select>
+
 
 </mapper>

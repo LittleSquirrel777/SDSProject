@@ -7,6 +7,10 @@
         select * from User where  name=#{userName}
     </select>
 
+    <select id="getUserInfoByName2" resultType="com.iman.sds.entity.UserInfo">
+        select * from user_info where name = #{name}
+    </select>
+
     <!-- 查询用户的所有权限 -->
     <select id="queryAllPerms" resultType="string">
         select DISTINCT p.permission from permission p

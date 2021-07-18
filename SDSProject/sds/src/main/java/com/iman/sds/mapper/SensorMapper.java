@@ -28,4 +28,6 @@ public interface SensorMapper extends BaseMapper<SensorData> {
     Sensor getSensorById2(Long id);
     Score getScoreById2(Long factoryId, Long sensorId);
     boolean addSensor2(Sensor sensor);
+    List<Long> getScoreIdsByFactoryId2(Long factoryId);
+    ScDescription getScDescriptionById2(Long scoreId);
 }

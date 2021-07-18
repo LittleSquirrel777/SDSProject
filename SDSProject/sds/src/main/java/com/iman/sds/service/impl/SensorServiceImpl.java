@@ -11,6 +11,7 @@ import com.iman.sds.service.SensorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -79,9 +80,9 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
     public boolean saveLogData2Chain(AddLogParam addLogParam) {
         addLogParam.setCreateTime(new Date());
         Score score = new Score();
-        score.setId(sensorMapper.getScoreById2(userMapper.getUserByName(addLogParam.getFactoryName()).getId(),addLogParam.getSensorId()).getId());
+        score.setId(sensorMapper.getScoreById2(userMapper.getUserInfoByName2(addLogParam.getFactoryName()).getUserId(),addLogParam.getSensorId()).getId());
         score.setSensorId(addLogParam.getSensorId());
-        score.setFactoryId(userMapper.getUserByName(addLogParam.getFactoryName()).getId());
+        score.setFactoryId(userMapper.getUserInfoByName2(addLogParam.getFactoryName()).getUserId());
         score.setNum(addLogParam.getNum());
         String operation;
         if(addLogParam.getNum() < 0) {
@@ -92,7 +93,7 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         ScDescription scDescription = new ScDescription();
         scDescription.setDescription(addLogParam.getDescription());
         scDescription.setCreateTime(addLogParam.getCreateTime());
-        scDescription.setScoreId(sensorMapper.getScoreById2(userMapper.getUserByName(addLogParam.getFactoryName()).getId(),addLogParam.getSensorId()).getId());
+        scDescription.setScoreId(sensorMapper.getScoreById2(userMapper.getUserInfoByName2(addLogParam.getFactoryName()).getUserId(),addLogParam.getSensorId()).getId());
         if(jRContractDemo != null){
             return jRContractDemo.callContractAddLogDataCredit(sensorMapper.getSensorById2(addLogParam.getSensorId()),score,operation,scDescription) ;
         } else {
@@ -105,14 +106,14 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         ScDescription scDescription = new ScDescription();
         scDescription.setDescription(addLogParam.getDescription());
         scDescription.setCreateTime(addLogParam.getCreateTime());
-        scDescription.setScoreId(sensorMapper.getScoreById2(userMapper.getUserByName(addLogParam.getFactoryName()).getId(),addLogParam.getSensorId()).getId());
+        scDescription.setScoreId(sensorMapper.getScoreById2(userMapper.getUserInfoByName2(addLogParam.getFactoryName()).getUserId(),addLogParam.getSensorId()).getId());
         return sensorMapper.addLogData2(scDescription);
     }
 
     public boolean saveScoreData(AddLogParam addLogParam) {
         Score score = new Score();
         score.setSensorId(addLogParam.getSensorId());
-        score.setFactoryId(userMapper.getUserByName(addLogParam.getFactoryName()).getId());
+        score.setFactoryId(userMapper.getUserInfoByName2(addLogParam.getFactoryName()).getUserId());
         score.setNum(addLogParam.getNum());
         return sensorMapper.addScoreData2(score);
     }
@@ -134,4 +135,14 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
     public List<SensorInfo> getSensorInfo() {
         return baseMapper.getSensorInfoList();
     }
+
+    public List<ScDescription> listLog(String factoryName) {
+        Long factoryId = userMapper.getUserByName(factoryName).getId(); //根据工厂名得到工厂id
+        List<Long> scoreIds = sensorMapper.getScoreIdsByFactoryId2(factoryId); //根据工厂id得到积分记录id
+        List<ScDescription> scDescriptions = new ArrayList<>();
+        for (int i = 0; i < scoreIds.size(); i ++) {
+            scDescriptions.add(sensorMapper.getScDescriptionById2(scoreIds.get(i)));
+        }
+        return scDescriptions;
+    };
 }

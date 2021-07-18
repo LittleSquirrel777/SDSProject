@@ -43,5 +43,5 @@ public interface UserMapper extends BaseMapper<User>{
     //@Insert("insert into user_role values(#{id},#{userId},#{roleId})")
     //@Options(useGeneratedKeys = true,keyProperty = "id")
     boolean addUserRole2(UserRole userRole);
-
+    UserInfo getUserInfoByName2(String name);
 }
