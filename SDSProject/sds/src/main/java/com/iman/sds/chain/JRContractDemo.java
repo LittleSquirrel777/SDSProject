@@ -38,6 +38,7 @@ import com.iman.sds.entity.SensorData;
 import com.iman.sds.po.AddLogParam;
 import com.iman.sds.po.LogDataParam;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.InetSocketAddress;
@@ -359,8 +360,9 @@ public class JRContractDemo {
             } else {
                 // decode return values
                 EVMOutput contractReturnValues = new EVMOutput(ByteUtils.toHexString(output));
-                System.out.println(String.format("call callContractDataQueryCredit function,log is %s", contractReturnValues.getString()));
-                return contractReturnValues.getString();
+                String result = contractReturnValues.getString();
+                System.out.println(String.format("call callContractDataQueryCredit function,log is %s", result));
+                return result;
             }
         }
     }
@@ -416,7 +418,9 @@ public class JRContractDemo {
             String[] tmp = sensorData[i].split("-");
             SensorData sensorData1 = new SensorData();
             sensorData1.setId(sensor.getId());
-            sensorData1.setCreteTime(new Date(Integer.parseInt(tmp[0])));
+            Long tmp1 = Long.parseLong(tmp[0]);
+            Date date = new Date(tmp1);
+            sensorData1.setCreteTime(date);
             sensorData1.setPh(Integer.parseInt(tmp[1]));
             sensorData1.setChroma(Integer.parseInt(tmp[2]));
             sensorData1.setSs(Integer.parseInt(tmp[3]));
@@ -442,7 +446,9 @@ public class JRContractDemo {
             String[] tmp = sensorData[i].split("-");
             SensorData sensorData1 = new SensorData();
             sensorData1.setId(sensor.getId());
-            sensorData1.setCreteTime(new Date(Integer.parseInt(tmp[0])));
+            Long tmp1 = Long.parseLong(tmp[0]);
+            Date date = new Date(tmp1);
+            sensorData1.setCreteTime(date);
             sensorData1.setPh(Integer.parseInt(tmp[1]));
             sensorData1.setChroma(Integer.parseInt(tmp[2]));
             sensorData1.setSs(Integer.parseInt(tmp[3]));
@@ -597,7 +603,7 @@ public class JRContractDemo {
             logDataParam.setSensorId(sensor.getId());
             logDataParam.setAddress(tmp[1]);
             logDataParam.setDescription(tmp[4] + " " + tmp[3] + tmp[2]);
-            logDataParam.setCreateTime(new Date(Integer.parseInt(tmp[5])));
+            logDataParam.setCreateTime(new Date(Long.parseLong(tmp[5])));
             list.add(logDataParam);
         }
 //        return mapList;
@@ -615,7 +621,7 @@ public class JRContractDemo {
             logDataParam.setSensorId(sensor.getId());
             logDataParam.setAddress(tmp[1]);
             logDataParam.setDescription(tmp[4] + " " + tmp[3] + tmp[2]);
-            logDataParam.setCreateTime(new Date(Integer.parseInt(tmp[5])));
+            logDataParam.setCreateTime(new Date(Long.parseLong(tmp[5])));
             list.add(logDataParam);
         }
         return list;
@@ -729,8 +735,9 @@ public class JRContractDemo {
         //step 2: init sdk client
         initSdk();
 
+//        System.out.println(new Date(new Date().getTime()));
         //step 3 : deploy a contract using useridentity.
-        deployContract();
+//        deployContract();
 //        System.out.println(new Date(new Date().getTime()));
         //调用合约的过程
         //1 添加一个传感器

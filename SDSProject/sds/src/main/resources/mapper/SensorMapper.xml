@@ -53,9 +53,9 @@
     <select id="getAllSensor" resultType="com.iman.sds.entity.Sensor">
         select id,address from sensor;
     </select>
-    <select id="getFacNameBySensorId">
-        select user_info.name from sensor join user_info where user_info.user_id = sensor.factory_id where sensor.id = #{sensorId};
-    </select>
+    <select id="getFacNameBySensorId" resultType="String">
+        SELECT user_info.name FROM sensor JOIN user_info ON sensor.factory_id = user_info.user_id WHERE sensor.id = #{sensorId};
+</select>
 
 
 </mapper>

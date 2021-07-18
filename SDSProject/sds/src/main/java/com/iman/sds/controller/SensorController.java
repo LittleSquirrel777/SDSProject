@@ -121,9 +121,9 @@ public class SensorController {
             logDataReturn.setData(result.get(factoryName1));
             list.add(logDataReturn);
         }
-        Map map = new HashMap<String, List>();
-        map.put("result", list);
-        return ResponseMsg.successResponse(map);
+//        Map map = new HashMap<String, List>();
+//        map.put("result", list);
+        return ResponseMsg.successResponse(list);
     }
 
 }
