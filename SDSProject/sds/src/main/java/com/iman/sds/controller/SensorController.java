@@ -2,8 +2,10 @@ package com.iman.sds.controller;
 
 import com.iman.sds.entity.ScDescription;
 import com.iman.sds.entity.Sensor;
+import com.iman.sds.entity.SensorData;
 import com.iman.sds.entity.SensorInfo;
 import com.iman.sds.po.AddLogParam;
+import com.iman.sds.po.QueryDataParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
  * <p>
  *  前端控制器
@@ -45,7 +49,7 @@ import java.util.Map;
 //上传传感器的一个日志数据  参数（sensor，score，操作符 “+” “-”，scDescription 描述）
 //public static List<Map<String, String>> logDataToMap(Sensor sensor)
 //给一个sensor 返回这个传感器的日志数据（"sensorId": "", "address": "", "description": ""）
-public class SensorController extends BaseController {
+public class SensorController {
     @Autowired
     SensorService sensorService;
     /*
@@ -86,9 +90,13 @@ public class SensorController extends BaseController {
     }
 
     @RequestMapping(value = "/queryData", method = RequestMethod.GET)
-    public ResponseMsg queryData(@RequestBody Sensor sensor){
-
-        return ResponseMsg.successResponse("OK");
+    public ResponseMsg queryData(@RequestBody QueryDataParam queryDataParam) {
+        String factoryName = queryDataParam.getFactoryName();
+        String address = queryDataParam.getAddress();
+        Date startTime = queryDataParam.getStartTime();
+        Date endTime = queryDataParam.getEndTime();
+        Map<String, List<SensorData>> sensorData = sensorService.getSensorDataByFacNameAndAddress(factoryName, address, startTime, endTime);
+        return ResponseMsg.successResponse(sensorData);
     }
 
     @RequestMapping(value = "/queryLog", method = RequestMethod.GET)
@@ -98,7 +106,5 @@ public class SensorController extends BaseController {
         result.put("logs", list);
         return ResponseMsg.successResponse(result);
     }
-
-
 }
 

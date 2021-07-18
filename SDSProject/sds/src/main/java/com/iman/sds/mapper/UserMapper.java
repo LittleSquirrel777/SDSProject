@@ -5,9 +5,10 @@ import com.iman.sds.entity.User;
 import com.iman.sds.entity.UserInfo;
 import com.iman.sds.entity.UserRole;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
-import org.mapstruct.Mapper;
+
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @date 2021/7/12 21:44
  * @Email:gem7991@dingtalk.com
  */
+@Mapper
 public interface UserMapper extends BaseMapper<User>{
     User getUserByName(String userName);
 

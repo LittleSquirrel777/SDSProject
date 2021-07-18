@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iman.sds.mapper.SensorMapper">
-
     <insert id="addSensorData2">
         insert into sensor_data(`sensor_id`,`create_time`,`ph`,`chroma`,`ss`,`bod5`,`cod`,`an`,`tn`,`tp`,`vp`,`toc`) values(#{sensorId},#{createTime},#{ph},#{chroma},#{ss},#{bod5},#{cod},#{an},#{tn},#{tp},#{vp},#{toc})
     </insert>
@@ -40,6 +39,22 @@
 
     <select id="getScDescriptionById2" resultType="com.iman.sds.SdsApplication">
         select * from sc_description where id = #{scoreId}
+    </select>
+
+    <select id="getFacIdByFacName" resultType="java.lang.Long">
+        select user_id from user_info where name = #{factoryName};
+    </select>
+    <select id="getSensorIdByFacId" resultType="com.iman.sds.entity.Sensor">
+        select id,address from sensor where factory_id = #{factoryId};
+    </select>
+    <select id="getSensorIdBySenAddress" resultType="com.iman.sds.entity.Sensor">
+        select id,address from sensor where address = #{address};
+    </select>
+    <select id="getAllSensor" resultType="com.iman.sds.entity.Sensor">
+        select id,address from sensor;
+    </select>
+    <select id="getFacNameBySensorId">
+        select user_info.name from sensor join user_info where user_info.user_id = sensor.factory_id where sensor.id = #{sensorId};
     </select>
 
 

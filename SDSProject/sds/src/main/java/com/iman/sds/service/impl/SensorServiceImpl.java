@@ -11,6 +11,7 @@ import com.iman.sds.service.SensorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +117,57 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         score.setFactoryId(userMapper.getUserInfoByName2(addLogParam.getFactoryName()).getUserId());
         score.setNum(addLogParam.getNum());
         return sensorMapper.addScoreData2(score);
+    }
+
+    @Override
+    public Map<String, List<SensorData>> getSensorDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime) {
+        List<Sensor> result1 = null;
+        List<Sensor> result2 = null;
+        List<Sensor> result = null;
+        if (factoryName != null) {
+            //根据工厂名字获得工厂id
+            Long factoryId = this.baseMapper.getFacIdByFacName(factoryName);
+            //根据工厂id获得对应的sensorId
+            result1 = this.baseMapper.getSensorIdByFacId(factoryId);
+        }
+        if (address != null) {
+            result2 = this.baseMapper.getSensorIdBySenAddress(address);
+        }
+
+        if (result1 != null && result2 != null) {
+//            Set<Sensor> set = new HashSet<Sensor>();
+//            for (int i = 0; i < result1.size(); i++) {
+//                set.add(result1.get(i));
+//            }
+//            for (int i = 0; i < result2.size(); i++) {
+//                set.add(result2.get(i));
+//            }
+            result1.retainAll(result2);
+            result = result1;
+        } else if (result1 != null) {
+            result = result1;
+        } else if (result2 != null) {
+            result = result2;
+        }
+        if (result == null) {
+            result = this.baseMapper.getAllSensor();
+        }
+        Map<String, List<SensorData>> map = new HashMap<String, List<SensorData>>();
+        if (startTime != null && endTime != null) {
+            for (int i = 0; i < result.size(); i++) {
+                List<SensorData> sensorData = JRContractDemo.dataToSensorDataList2(result.get(i), startTime, endTime);
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(sensorData.get(i).getId());
+                map.put(factoryName1, sensorData);
+            }
+        } else {
+            for (int i = 0; i < result.size(); i++) {
+                List<SensorData> sensorData = JRContractDemo.dataToSensorDataList1(result.get(i));
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(sensorData.get(i).getId());
+                map.put(factoryName1, sensorData);
+            }
+        }
+        return map;
+//        return this.baseMapper.selectSensorIdByFacNameAndAddress(factoryName, address);
     }
 
     public boolean saveSensor(Sensor sensor) {

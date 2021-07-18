@@ -30,4 +30,16 @@ public interface SensorMapper extends BaseMapper<SensorData> {
     boolean addSensor2(Sensor sensor);
     List<Long> getScoreIdsByFactoryId2(Long factoryId);
     ScDescription getScDescriptionById2(Long scoreId);
+
+    Long getFacIdByFacName(String factoryName);
+
+    List<Sensor> getSensorIdByFacId(Long factoryId);
+
+    List<Sensor> getSensorIdBySenAddress(String address);
+
+    List<Sensor> getAllSensor();
+
+    String getFacNameBySensorId(Long sensorId);
+
+//    Long[] selectSensorIdByFacNameAndAddress(String factoryName, String address);
 }
