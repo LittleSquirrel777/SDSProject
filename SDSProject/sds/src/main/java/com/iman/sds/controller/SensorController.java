@@ -7,6 +7,7 @@ import com.iman.sds.entity.SensorInfo;
 import com.iman.sds.po.AddLogParam;
 import com.iman.sds.po.QueryDataParam;
 import com.iman.sds.po.QueryLogParam;
+import com.iman.sds.po.SensorDataReturn;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -96,8 +94,19 @@ public class SensorController {
         String address = queryDataParam.getAddress();
         Date startTime = queryDataParam.getStartTime();
         Date endTime = queryDataParam.getEndTime();
+//        Map hashmap = new HashMap<>();
+//        hashmap.put("factoryName", factoryName);
+//        hashmap.put()
+        List<SensorDataReturn> list = new ArrayList<SensorDataReturn>();
         Map<String, List<SensorData>> sensorData = sensorService.getSensorDataByFacNameAndAddress(factoryName, address, startTime, endTime);
-        return ResponseMsg.successResponse(sensorData);
+        for (String factoryName1 : sensorData.keySet()) {
+            SensorDataReturn tmp = new SensorDataReturn();
+            tmp.setFactoryName(factoryName1);
+            List<SensorData> sensorData1 = sensorData.get(factoryName1);
+            tmp.setData(sensorData1);
+            list.add(tmp);
+        }
+        return ResponseMsg.successResponse(list);
     }
 
     /*
