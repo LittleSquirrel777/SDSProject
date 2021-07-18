@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -59,13 +61,13 @@ public class SensorController {
         return ResponseMsg.successResponse(result);
     }
 
-   /* @RequestMapping(value = "/addData", method = RequestMethod.POST)
+    @RequestMapping(value = "/addData", method = RequestMethod.POST)
     @RequiresPermissions(value = { "sensordata:add" })
     public ResponseMsg addData(@RequestBody AddDataParam addDataParam) {
         sensorService.saveSensorData2Chain(addDataParam);
         sensorService.saveSensorData(addDataParam);
         return ResponseMsg.successResponse("OK");
-    }*/
+    }
 
     @RequestMapping(value = "/addLog", method = RequestMethod.PUT)
     @RequiresPermissions(value = { "logdata:write" })
@@ -85,11 +87,15 @@ public class SensorController {
     }*/
 
     @RequestMapping(value = "/queryData", method = RequestMethod.POST)
-    public ResponseMsg queryData(@RequestBody QueryDataParam queryDataParam) {
+    public ResponseMsg queryData(@RequestBody QueryDataParam queryDataParam) throws ParseException {
         String factoryName = queryDataParam.getFactoryName();
         String address = queryDataParam.getAddress();
-        Date startTime = queryDataParam.getStartTime();
-        Date endTime = queryDataParam.getEndTime();
+        String startTime1 = queryDataParam.getStartTime();
+        String endTime1 = queryDataParam.getEndTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date startTime = sdf.parse(startTime1);
+        Date endTime = sdf.parse(endTime1);
+
 //        Map hashmap = new HashMap<>();
 //        hashmap.put("factoryName", factoryName);
 //        hashmap.put()
@@ -107,11 +113,14 @@ public class SensorController {
 
 
     @RequestMapping(value = "/queryLog", method = RequestMethod.POST)
-    public ResponseMsg queryLog(@RequestBody QueryLogParam queryLogParam){
+    public ResponseMsg queryLog(@RequestBody QueryLogParam queryLogParam) throws ParseException {
         String factoryName = queryLogParam.getFactoryName();
         String address = queryLogParam.getAddress();
-        Date startTime = queryLogParam.getStartTime();
-        Date endTime = queryLogParam.getEndTime();
+        String startTime1 = queryLogParam.getStartTime();
+        String endTime1 = queryLogParam.getEndTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date startTime = sdf.parse(startTime1);
+        Date endTime = sdf.parse(endTime1);
         List list = new ArrayList<LogDataReturn>();
         Map<String, List<LogDataParam>> result = sensorService.getLogDataByFacNameAndAddress(factoryName, address, startTime, endTime);
 
