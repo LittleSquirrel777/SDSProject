@@ -9,5 +9,5 @@ public interface ScoreService extends IService<Score> {
 
     Long getFactoryIdByName(String factoryName);
     List<Score> getScoreByFacId(Long factoryId);
-
+    List<Score> getScoreById();
 }
