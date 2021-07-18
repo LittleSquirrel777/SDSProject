@@ -201,13 +201,13 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         List<Sensor> result1 = null;
         List<Sensor> result2 = null;
         List<Sensor> result = null;
-        if (factoryName != null) {
+        if (factoryName.length() != 0) {
             //根据工厂名字获得工厂id
             Long factoryId = this.baseMapper.getFacIdByFacName(factoryName);
             //根据工厂id获得对应的sensorId
             result1 = this.baseMapper.getSensorIdByFacId(factoryId);
         }
-        if (address != null) {
+        if (address.length() != 0) {
             result2 = this.baseMapper.getSensorIdBySenAddress(address);
         }
 
