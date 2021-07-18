@@ -21,8 +21,12 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public List<Score> getScoreByFacId(Long factoryId) {
-        return this.baseMapper.getScoreById(factoryId);
+        return this.baseMapper.getScoreByFacId(factoryId);
     }
 
-
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<Score> getScoreById() {
+        return this.baseMapper.getScoreById();
+    }
 }

@@ -21,8 +21,8 @@ public class ScoreController extends BaseController{
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @RequiresPermissions(value = { "AllScore:view" })
     public ResponseMsg getAllScore(@RequestParam String factoryName){
-        if (factoryName == null) {
-            List<Score> list = scoreService.list();
+        if (factoryName.length() == 0) {
+            List<Score> list = scoreService.getScoreById();
             Map result = new HashMap();
             result.put("scoreList", list);
             return ResponseMsg.successResponse(result);
@@ -34,20 +34,5 @@ public class ScoreController extends BaseController{
             return ResponseMsg.successResponse(result);
         }
     }
-
-
-
-    @RequestMapping(value = "/listfactory", method = RequestMethod.GET)
-    @RequiresPermissions(value = { "score:view" })
-    public ResponseMsg getScoreDataByFacName(@RequestParam String factoryName){
-
-        Long factoryId = scoreService.getFactoryIdByName(factoryName);
-
-        List<Score> list = scoreService.getScoreByFacId(factoryId);
-        Map result = new HashMap();
-        result.put("scoreList", list);
-        return ResponseMsg.successResponse(result);
-    }
-
 
 }
