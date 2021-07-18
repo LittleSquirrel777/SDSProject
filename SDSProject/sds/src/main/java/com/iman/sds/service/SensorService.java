@@ -5,6 +5,7 @@ import com.iman.sds.entity.*;
 import com.iman.sds.entity.SensorData;
 import com.iman.sds.po.AddDataParam;
 import com.iman.sds.po.AddLogParam;
+import com.iman.sds.po.LogDataParam;
 
 import java.util.Date;
 import java.util.List;
@@ -31,5 +32,5 @@ public interface SensorService extends IService<SensorData> {
     //List<ScDescription> listLogFromChain(String factoryName);
 
     Map<String, List<SensorData>> getSensorDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime);
-    //Map<String, List<ScDescription>> getLogDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime);
+    Map<String, List<LogDataParam>> getLogDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime);
 }

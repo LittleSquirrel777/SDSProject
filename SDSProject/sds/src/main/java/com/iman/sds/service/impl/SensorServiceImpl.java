@@ -7,6 +7,7 @@ import com.iman.sds.mapper.SensorMapper;
 import com.iman.sds.mapper.UserMapper;
 import com.iman.sds.po.AddDataParam;
 import com.iman.sds.po.AddLogParam;
+import com.iman.sds.po.LogDataParam;
 import com.iman.sds.service.SensorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -158,13 +159,13 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
             for (int i = 0; i < result.size(); i++) {
                 List<SensorData> sensorData = JRContractDemo.dataToSensorDataList2(result.get(i), startTime, endTime);
                 String factoryName1 = this.baseMapper.getFacNameBySensorId(sensorData.get(i).getId());
-                map.put(factoryName1, sensorData);
+                map.put(factoryName1 + "_" + result.get(i).getId(), sensorData);
             }
         } else {
             for (int i = 0; i < result.size(); i++) {
                 List<SensorData> sensorData = JRContractDemo.dataToSensorDataList1(result.get(i));
                 String factoryName1 = this.baseMapper.getFacNameBySensorId(sensorData.get(i).getId());
-                map.put(factoryName1, sensorData);
+                map.put(factoryName1 + "_" + result.get(i).getId(), sensorData);
             }
         }
         return map;
@@ -195,9 +196,8 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         return  sensorMapper.getScDescriptionsById2(scoreId);
     }
 
-    /*
     @Override
-    public Map<String, List<ScDescription>> getLogDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime) {
+    public Map<String, List<LogDataParam>> getLogDataByFacNameAndAddress(String factoryName, String address, Date startTime, Date endTime) {
         List<Sensor> result1 = null;
         List<Sensor> result2 = null;
         List<Sensor> result = null;
@@ -229,25 +229,23 @@ public class SensorServiceImpl extends ServiceImpl<SensorMapper, SensorData> imp
         if (result == null) {
             result = this.baseMapper.getAllSensor();
         }
-        Map<String, List<ScDescription>> map = new HashMap<String, List<ScDescription>>();
+        Map<String, List<LogDataParam>> map = new HashMap<String, List<LogDataParam>>();
         if (startTime != null && endTime != null) {
             for (int i = 0; i < result.size(); i++) {
-                List<Map<String, String>> logData = JRContractDemo.logDataToMap2(result.get(i), startTime, endTime);
-                String factoryName1 = this.baseMapper.getFacNameBySensorId(logData.get(i).getId());
-                ScDescription scDescription = new ScDescription();
-                scDescription.setId();
-                map.put(factoryName1, logData);
+                List<LogDataParam> logData = JRContractDemo.logDataToMap2(result.get(i), startTime, endTime);
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(logData.get(i).getSensorId());
+//                return logData;
+                map.put(factoryName1 + "_" + result.get(i).getId(), logData);
             }
         } else {
             for (int i = 0; i < result.size(); i++) {
-                List<SensorData> sensorData = JRContractDemo.dataToSensorDataList1(result.get(i));
-                String factoryName1 = this.baseMapper.getFacNameBySensorId(sensorData.get(i).getId());
-                //map.put(factoryName1, sensorData);
+                List<LogDataParam> logData = JRContractDemo.logDataToMap1(result.get(i));
+                String factoryName1 = this.baseMapper.getFacNameBySensorId(logData.get(i).getSensorId());
+                map.put(factoryName1 + "_" + result.get(i).getId(), logData);
             }
         }
         return map;
 //        return this.baseMapper.selectSensorIdByFacNameAndAddress(factoryName, address);
     }
-    */
 
 }

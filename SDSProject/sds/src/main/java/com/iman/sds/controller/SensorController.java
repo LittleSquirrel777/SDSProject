@@ -4,15 +4,11 @@ import com.iman.sds.entity.ScDescription;
 import com.iman.sds.entity.Sensor;
 import com.iman.sds.entity.SensorData;
 import com.iman.sds.entity.SensorInfo;
-import com.iman.sds.po.AddLogParam;
-import com.iman.sds.po.QueryDataParam;
-import com.iman.sds.po.QueryLogParam;
-import com.iman.sds.po.SensorDataReturn;
+import com.iman.sds.po.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.iman.sds.common.ResponseMsg;
-import com.iman.sds.po.AddDataParam;
 import com.iman.sds.service.SensorService;
 import com.iman.sds.utils.JwtUtils;
 import io.swagger.annotations.Api;
@@ -110,18 +106,25 @@ public class SensorController {
     }
 
 
-    /*
     @RequestMapping(value = "/queryLog", method = RequestMethod.GET)
     public ResponseMsg queryLog(@RequestBody QueryLogParam queryLogParam){
         String factoryName = queryLogParam.getFactoryName();
         String address = queryLogParam.getAddress();
         Date startTime = queryLogParam.getStartTime();
         Date endTime = queryLogParam.getEndTime();
-        Map<String, List<ScDescription>> scDescriptions = sensorService.getLogDataByFacNameAndAddress(factoryName, address, startTime, endTime);
+        List list = new ArrayList<LogDataReturn>();
+        Map<String, List<LogDataParam>> result = sensorService.getLogDataByFacNameAndAddress(factoryName, address, startTime, endTime);
 
-        return ResponseMsg.successResponse(scDescriptions);
+        for (String factoryName1 : result.keySet()) {
+            LogDataReturn logDataReturn = new LogDataReturn();
+            logDataReturn.setFactoryName(factoryName1);
+            logDataReturn.setData(result.get(factoryName1));
+            list.add(logDataReturn);
+        }
+        Map map = new HashMap<String, List>();
+        map.put("result", list);
+        return ResponseMsg.successResponse(map);
     }
-     */
 
 }
 
